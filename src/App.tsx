@@ -1,53 +1,83 @@
 import React from 'react';
-// import './App.css';
+import './App.css';
 import { Auth } from './auth/Auth';
+import { Paper, Tabs, Tab, Box, Typography, AppBar, Container } from '@material-ui/core';
+import { Homepage } from './homepage/Homepage';
+import { UserData } from './Interfaces';
 
-type SessionData = {
-  sessionToken: string | null
+type AppData = {
+  sessionToken: string | null,
+  userRole: string | null
 }
 
-class App extends React.Component<{}, SessionData> {
-  constructor(props: {}){
+class App extends React.Component<{}, AppData> {
+  constructor(props: {}) {
     super(props)
 
     this.state = {
-      sessionToken: ""
+      sessionToken: localStorage.getItem('token')? localStorage.getItem('token'): "",
+      userRole: null
     }
   }
 
-  componentDidMount() {
-    if(localStorage.getItem('token')){
-      this.setState({
-        sessionToken: localStorage.getItem('token')
-      })
-        
-    }
-  }
-
-   updateToken = (newToken: string) => {
-    localStorage.setItem('token', newToken);
+  setUserRole = (role: string) => {
     this.setState({
-      sessionToken: newToken
+      userRole: role
+    })
+    // console.log("role",role)
+  }
+
+  componentWillMount() {
+    console.log("App Will Mount");
+  }
+
+  componentWillReceiveProps() {
+    console.log("App Will Recieve props");
+  }
+
+  componentDidUpdate() {
+    console.log("App Did Update");
+  }
+
+  componentWillUpdate() {
+    console.log("App Will Update");
+  }
+
+  componentWillUnmount() {
+    console.log("App Will UnMount")
+  }
+
+
+  updateUser = (user: UserData) => {
+    localStorage.setItem('token', user.sessionToken);
+    this.setUserRole(user.user.role);
+    // console.log("user", user.user.role)
+    this.setState({
+      sessionToken: user.sessionToken
     })
     // console.log(sessionToken);
   }
 
-   clearToken =  () => {
+  clearToken = () => {
     localStorage.clear();
     this.setState({
       sessionToken: ''
     })
   }
+  render() {
+    const session = localStorage.getItem("token")
+    return (
+      <div className={session === null ? "mainDiv" : ""}>
+        <Typography component="nav">
 
-
-  render(){
-  return (
-    <div className="">
-
-      <Auth updateToken={this.updateToken}/>
-    </div>
-  );
+        </Typography>
+        {session === null ?
+          <Auth setUserRole={this.setUserRole} updateUser={this.updateUser}/> :
+          <Homepage clearToken={this.clearToken}/>
+        }
+      </div>
+    );
   }
 }
 
-export default  App  ;
+export default App;

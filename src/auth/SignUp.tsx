@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import APIURL from "../helpers/environment";
+import { FormControl, TextField, Button } from "@material-ui/core";
+import { UserData } from "../Interfaces";
 
 type propsData = {
-    updateToken: (arg0:string) => void
+    updateUser: (user: UserData) => void,
+    role: string
 }
 
 type SignupData = {
@@ -14,93 +17,94 @@ type SignupData = {
     token: string
 }
 
- class SignUp extends Component<propsData, SignupData> {
+class SignUp extends Component<propsData, SignupData> {
 
-    constructor(props: propsData){
+    constructor(props: propsData) {
         super(props)
         this.state = {
-            firstName : "",
-            lastName : "",
-            userName : "",
-            email : "",
-            password : "",
+            firstName: "",
+            lastName: "",
+            userName: "",
+            email: "",
+            password: "",
             token: ""
         }
     }
 
 
-     handleSubmit = (event: React.FormEvent<HTMLElement>) => {
+    handleSubmit = (event: React.FormEvent<HTMLElement>) => {
         event.preventDefault();
-        console.log("SUBMIT",this.state.firstName,this.state.lastName,this.state.userName,this.state.email,this.state.password,APIURL)
-        
-        
+        console.log("SUBMIT", this.state.firstName, this.state.lastName, this.state.userName, this.state.email, this.state.password, APIURL)
+
+
         fetch(`${APIURL}/user/signup`, {
             method: "POST",
             body: JSON.stringify({
-              user: {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                userName: this.state.userName,
-                email: this.state.email,
-                password: this.state.password,
-                role: "buyer" //change later
-              },
+                user: {
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    userName: this.state.userName,
+                    email: this.state.email,
+                    password: this.state.password,
+                    role: this.props.role
+                },
             }),
             headers: new Headers({
-              "Content-Type": "application/json",
+                "Content-Type": "application/json",
             }),
-          })
-          .then((res) => {
-            if (res.status !== 200) {
-              res.json().then(err=> {alert(err.error)})
-              throw new Error("fetch error");
-            } else return res.json();
-          })
-          .then((data) => {
-              this.setState({
-                  token: data.sessionToken
-              });
-            this.props.updateToken(data.sessionToken);
-            console.log(data.sessionToken);
-          })
-          .catch((err) => console.log(err));
-          
+        })
+            .then((res) => {
+                if (res.status !== 200) {
+                    res.json().then(err => { alert(err.error) })
+                    throw new Error("fetch error");
+                } else return res.json();
+            })
+            .then((data) => {
+                this.setState({
+                    token: data.sessionToken
+                });
+                this.props.updateUser(data);
+                console.log(data.sessionToken);
+            })
+            .catch((err) => console.log(err));
+
     }
-    render(){
-       
-    return(
-        <div style = {{textAlign: 'center' }}>
-            <h1> Sign Up</h1>
-            <form onSubmit= {e => {this.handleSubmit(e)}}>
-               <input placeholder="First Name" onChange={e => {
-                   this.setState({firstName: e.target.value})
-               }}></input>
-               <br/>
-               <br/>
-               <input placeholder="Last Name"  onChange={e => {
-                   this.setState({lastName: e.target.value})
-               }}></input>
-               <br/>
-               <br/>
-               <input placeholder="Username"  onChange={e => {
-                   this.setState({userName: e.target.value})
-               }}></input>
-               <br/>
-               <br/>
-               <input placeholder="Email"  onChange={e => {
-                   this.setState({email: e.target.value})
-               }}></input>
-               <br/>
-               <br/>
-               <input placeholder="Password"  onChange={e => {
-                   this.setState({password: e.target.value})
-               }}></input>
-               <br/>
-               <br/>
-               <button type="submit">Sign Up</button>
-            </form>
-        </div>
-    )
+    render() {
+
+        return (
+            // <div style = {{textAlign: 'center' }}>
+            //     <h1> Sign Up</h1>
+            <FormControl>
+                <TextField label="First Name" variant="outlined"
+                    onChange={e => {
+                        this.setState({ firstName: e.target.value })
+                    }} />
+
+                <br />
+                <TextField label="Last Name" variant="outlined"
+                    onChange={e => {
+                        this.setState({ lastName: e.target.value })
+                    }} />
+                <br />
+                <TextField label="Username" variant="outlined"
+                    onChange={e => {
+                        this.setState({ userName: e.target.value })
+                    }} />
+                <br />
+                <TextField label="Email" variant="outlined"
+                    onChange={e => {
+                        this.setState({ email: e.target.value })
+                    }}  />
+                <br />
+                <TextField label="Password" variant="outlined"
+                    onChange={e => {
+                        this.setState({ password: e.target.value })
+                    }} />
+                <br />
+                <Button variant="contained"  onClick={e => { this.handleSubmit(e) }}>Sign Up</Button>
+            </FormControl>
+            // </div>
+        )
     }
 }
 
