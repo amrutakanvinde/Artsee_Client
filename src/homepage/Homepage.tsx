@@ -8,6 +8,7 @@ type HomeData = {
 
 type propsData = {
   clearToken: () => void,
+  sessionToken : string | null
 }
 
 export class Homepage extends Component<propsData, HomeData> {
@@ -17,14 +18,14 @@ export class Homepage extends Component<propsData, HomeData> {
 
     render(){
         return(
-            <div>
+            <div className="divHome">
                 {/* <h1 style={{color:"black"}}> Home</h1>  */}
                 <Button
                 onClick={this.props.clearToken}
                 id="logoutbutton" color="secondary">
                 Logout
               </Button>
-              <BuyerHome />
+              <BuyerHome sessionToken={this.props.sessionToken}/>
             </div>
         )
     }

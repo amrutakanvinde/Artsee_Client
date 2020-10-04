@@ -27,27 +27,6 @@ class App extends React.Component<{}, AppData> {
     // console.log("role",role)
   }
 
-  componentWillMount() {
-    console.log("App Will Mount");
-  }
-
-  componentWillReceiveProps() {
-    console.log("App Will Recieve props");
-  }
-
-  componentDidUpdate() {
-    console.log("App Did Update");
-  }
-
-  componentWillUpdate() {
-    console.log("App Will Update");
-  }
-
-  componentWillUnmount() {
-    console.log("App Will UnMount")
-  }
-
-
   updateUser = (user: UserData) => {
     localStorage.setItem('token', user.sessionToken);
     this.setUserRole(user.user.role);
@@ -73,7 +52,7 @@ class App extends React.Component<{}, AppData> {
         </Typography>
         {session === null ?
           <Auth setUserRole={this.setUserRole} updateUser={this.updateUser}/> :
-          <Homepage clearToken={this.clearToken}/>
+          <Homepage clearToken={this.clearToken} sessionToken= {session}/>
         }
       </div>
     );

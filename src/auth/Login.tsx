@@ -42,7 +42,7 @@ class Login extends Component<propsData, LoginData> {
         } else return res.json();
       })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         // this.props.updateToken(data.sessionToken);
         this.props.updateUser(data);
         console.log("User successfully logged in");

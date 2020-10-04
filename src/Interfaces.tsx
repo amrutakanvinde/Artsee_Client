@@ -14,3 +14,11 @@ export interface User {
     role: string,
     userName: string
 }
+
+export interface ItemData {
+    id: number,
+    itemName: string,
+    price: number,
+    quantity: number,
+    sellerId: number
+}

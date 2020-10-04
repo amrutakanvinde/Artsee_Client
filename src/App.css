@@ -7,3 +7,8 @@
 .mainContainer{
   padding-top: 5%
 }
+
+.divHome{
+  width: 1200px;
+  margin: auto
+}

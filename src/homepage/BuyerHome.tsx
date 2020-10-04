@@ -1,60 +1,70 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import image from '../assets/image.jpg';
-import { Container } from '@material-ui/core';
+import APIURL from "../helpers/environment";
+import Item from '../Components/Item'
+import { ItemData } from '../Interfaces'
+import { Grid } from '@material-ui/core';
 
-const StyledCard = withStyles({
-    root: {
-        maxWidth: 345,
+type BuyerData = {
+    itemData: []
+}
+
+type propsData = {
+    sessionToken: string | null
+}
+
+export class BuyerHome extends Component<propsData, BuyerData> {
+    constructor(props: propsData) {
+        super(props)
+        this.state = {
+            itemData: []
+        }
     }
-})(Card);
 
-const StyledCardMedia = withStyles({
-    root: {
-        height: 140
+    fetchItems = () => {
+
+        if (this.props.sessionToken) {
+            fetch(`${APIURL}/item/all/`, {
+                method: "GET",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    'Authorization': this.props.sessionToken
+                }),
+            })
+                .then((res) => {
+                    if (res.status !== 200) {
+                        throw new Error("Error");
+                    } else return res.json();
+                })
+                .then((data) => {
+                    // console.log(data.item);
+                    this.setState({
+                        itemData: data.item
+                    })
+                })
+                .catch((err) => alert(err));
+        }
     }
-})(CardMedia)
 
-export class BuyerHome extends Component {
-
+    componentDidMount() {
+        this.fetchItems();
+    }
 
     render() {
-
         return (
-            <Container >
-                <StyledCard >
-                    <CardActionArea>
-                        <StyledCardMedia
-                            image={image}
-                            title="Contemplative Reptile"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Lizard
-                        </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-                        </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                        <Button size="small" color="primary">
-                            Share
-                    </Button>
-                        <Button size="small" color="primary">
-                            Learn More
-                    </Button>
-                    </CardActions>
-                </StyledCard>
-            </Container>
+            
+            <Grid container spacing={5} >
+                {
+                    this.state.itemData.map((item: ItemData, index: number) => {
+                        return (
+
+                            <Grid item xs={6} sm={3}>
+                                <Item key={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} />
+                            </Grid>
+                        )
+                    })
+                }
+            </Grid>
+
         );
     }
 }
