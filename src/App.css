@@ -10,5 +10,51 @@
 
 .divHome{
   width: 1200px;
-  margin: auto
+  margin: auto;
+  margin-top: 50px;
+  padding-top: 10px;
+}
+
+.MuiContainer-root {
+  padding: 10px !important;
+  /* padding-right: 5px !important; */
+}
+#navbar {
+  background-color: #EEEEEE;
+  position:fixed;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 100vw;
+  z-index: 1;
+}
+
+#navbar ul li {
+  float: right;
+  margin-right: 50px;
+  list-style-type: none;
+  text-align: center;
+}
+
+#navbar #name {
+  float: left;
+}
+.nav-link {
+  color: rgb(102, 2, 2);
+  text-decoration: none;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.nav-link:hover {
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+#name .nav-link {
+  color: darkred;
+  font-size: 13pt;
+  font-weight: bold;
+  float: left;
+}
+#name .nav-link:hover{
+  color:rgb(71, 1, 1);
 }

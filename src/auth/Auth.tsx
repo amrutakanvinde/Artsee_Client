@@ -46,57 +46,11 @@ function TabPanel(props: TabPanelProps) {
 export class Auth extends React.Component<propsData, SessionData> {
     constructor(props: propsData) {
         super(props)
-
-        // if (localStorage.getItem('token')) {
-        //     // console.log("Will Mount inside IF");
-        //     this.setState({
-        //         sessionToken: localStorage.getItem('token')
-        //     })
-        // }
         this.state = {
-            // sessionToken: localStorage.getItem('token')? localStorage.getItem('token'): "",
             role: "buyer",
             value: 0
         }
     }
-
-    componentWillMount() {
-        console.log("Will Mount");
-
-    }
-
-    componentWillReceiveProps() {
-        console.log("Will Recieve props");
-    }
-
-    componentDidUpdate() {
-        console.log("Did Update");
-    }
-
-    componentWillUpdate() {
-        console.log("Will Update");
-    }
-
-    componentWillUnmount() {
-        console.log("Will UnMount")
-    }
-
-    // updateUser = (user: UserData) => {
-    //     localStorage.setItem('token', user.sessionToken);
-    //     this.props.setUserRole(user.user.role);
-    //     // console.log("user", user.user.role)
-    //     this.setState({
-    //         sessionToken: user.sessionToken
-    //     })
-    //     // console.log(sessionToken);
-    // }
-
-    // clearToken = () => {
-    //     localStorage.clear();
-    //     this.setState({
-    //         sessionToken: ''
-    //     })
-    // }
 
     handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         this.setState({

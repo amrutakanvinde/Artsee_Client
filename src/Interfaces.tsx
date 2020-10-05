@@ -20,5 +20,7 @@ export interface ItemData {
     itemName: string,
     price: number,
     quantity: number,
-    sellerId: number
+    sellerId: number,
+    itemImage: string,
+    itemDescription: string
 }

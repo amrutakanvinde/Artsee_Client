@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import APIURL from "../helpers/environment";
 import Item from '../Components/Item'
 import { ItemData } from '../Interfaces'
-import { Grid } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
 
 type BuyerData = {
     itemData: []
@@ -11,6 +11,13 @@ type BuyerData = {
 type propsData = {
     sessionToken: string | null
 }
+
+const StyledGrid = withStyles({
+    root: {
+        'padding-left': '0px',
+        'padding-right': '0px'
+    }
+})(Grid);
 
 export class BuyerHome extends Component<propsData, BuyerData> {
     constructor(props: propsData) {
@@ -52,13 +59,13 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     render() {
         return (
             
-            <Grid container spacing={5} >
+            <Grid container spacing={0} >
                 {
                     this.state.itemData.map((item: ItemData, index: number) => {
                         return (
 
-                            <Grid item xs={6} sm={3}>
-                                <Item key={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} />
+                            <Grid item xs={3} spacing={0} >
+                                <Item key={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription}/>
                             </Grid>
                         )
                     })

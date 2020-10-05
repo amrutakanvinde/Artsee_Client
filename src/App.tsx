@@ -52,7 +52,7 @@ class App extends React.Component<{}, AppData> {
         </Typography>
         {session === null ?
           <Auth setUserRole={this.setUserRole} updateUser={this.updateUser}/> :
-          <Homepage clearToken={this.clearToken} sessionToken= {session}/>
+          <Homepage clearToken={this.clearToken} sessionToken= {session}  role={this.state.userRole}/>
         }
       </div>
     );
