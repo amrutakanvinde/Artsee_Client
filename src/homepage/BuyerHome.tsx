@@ -53,7 +53,35 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     }
 
     addItem = (id: number, quantity: number) => {
-        console.log("Button", id, quantity)
+        // console.log("Button", id, quantity)
+
+        if (this.props.sessionToken) {
+
+            fetch(`${APIURL}/cart/`, {
+                method: "POST",
+                body: JSON.stringify({
+                    cart: {
+                        quantity: quantity,
+                        itemId: id
+                    },
+                }),
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    'Authorization': this.props.sessionToken
+                }),
+            })
+                .then((res) => {
+                    if (res.status !== 200) {
+                        res.json().then(err => { alert(err.error) })
+                        throw new Error("fetch error");
+                    }
+                    else {
+                        console.log("Item added successfully")
+                    }
+                    //Add the number on cart item
+                })
+                .catch((err) => console.log(err));
+        }
     }
 
     componentDidMount() {
@@ -62,14 +90,14 @@ export class BuyerHome extends Component<propsData, BuyerData> {
 
     render() {
         return (
-            
+
             <Grid container spacing={0} >
                 {
                     this.state.itemData.map((item: ItemDetails, index: number) => {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}/>
+                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem} />
                             </Grid>
                         )
                     })
