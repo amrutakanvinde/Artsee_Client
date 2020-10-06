@@ -12,7 +12,7 @@ type AcceptedProps = {
 type BuyerData = {
     isOpen: boolean
 }
-
+  
 export class Buyer extends Component<AcceptedProps, BuyerData> {
     constructor(props: AcceptedProps) {
         super(props)

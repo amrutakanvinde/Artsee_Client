@@ -11,13 +11,14 @@ import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 
 type propsData = {
-    key: number,
+    id: number,
     itemName: string,
     price: number,
     quantity: number,
     sellerId: number,
     itemImage: string,
-    itemDescription: string
+    itemDescription: string,
+    addItem: (id: number, quantity: number) => void 
 }
 
 const StyledCard = withStyles({
@@ -34,6 +35,12 @@ const StyledCardMedia = withStyles({
 
 const Item: FunctionComponent<propsData> = (props) => {
 
+    let quantity = 1;
+
+    const updateQuantity = (newQuantity: any) => {
+        quantity = newQuantity;
+    }
+
     const mapQuantity = () => {
         let arr = [];
         for (let i = 1; i <= props.quantity; i++) {
@@ -43,7 +50,7 @@ const Item: FunctionComponent<propsData> = (props) => {
     }
 
     return (
-        <Container key={props.key}>
+        <Container key={props.id}>
             <StyledCard >
                 <CardActionArea>
                     <StyledCardMedia
@@ -60,19 +67,14 @@ const Item: FunctionComponent<propsData> = (props) => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    
-                    <Button size="small" color="primary" style={{marginTop:16, width: '50%'}}>
+                    <Button size="small" color="primary" style={{marginTop:16, width: '50%'}} 
+                    onClick= {() => props.addItem(props.id, quantity)}> 
                         Add to Cart
                     </Button>
                     <FormControl style={{ width: '50%' }}>
                         <InputLabel style={{textAlign: 'right'}}>Quantity</InputLabel>
                         <Select
-                        // open={open}
-                        // onClose={handleClose}
-                        // onOpen={handleOpen}
-                        // value={age}
-                        // onChange={handleChange}
-                        >
+                        onChange={(e) => updateQuantity(e.target.value)}>
                             {mapQuantity()}
                         </Select>
                     </FormControl>

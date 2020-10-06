@@ -1,11 +1,11 @@
 
 export interface UserData {
-    user: User,
+    user: UserDetails,
     sessionToken: string,
     message: string
 }
 
-export interface User {
+export interface UserDetails {
     email: string,
     firstName: string,
     lastName: string,
@@ -15,7 +15,7 @@ export interface User {
     userName: string
 }
 
-export interface ItemData {
+export interface ItemDetails {
     id: number,
     itemName: string,
     price: number,
@@ -23,4 +23,12 @@ export interface ItemData {
     sellerId: number,
     itemImage: string,
     itemDescription: string
+}
+
+export interface CartDetails {
+    id: number,
+    quantity: number,
+    itemId: number,
+    item: ItemDetails,
+    userId: number
 }

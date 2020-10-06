@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import APIURL from "../helpers/environment";
 import Item from '../Components/Item'
-import { ItemData } from '../Interfaces'
+import { ItemDetails } from '../Interfaces'
 import { Grid, withStyles } from '@material-ui/core';
 
 type BuyerData = {
@@ -52,6 +52,10 @@ export class BuyerHome extends Component<propsData, BuyerData> {
         }
     }
 
+    addItem = (id: number, quantity: number) => {
+        console.log("Button", id, quantity)
+    }
+
     componentDidMount() {
         this.fetchItems();
     }
@@ -61,11 +65,11 @@ export class BuyerHome extends Component<propsData, BuyerData> {
             
             <Grid container spacing={0} >
                 {
-                    this.state.itemData.map((item: ItemData, index: number) => {
+                    this.state.itemData.map((item: ItemDetails, index: number) => {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <Item key={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription}/>
+                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}/>
                             </Grid>
                         )
                     })
