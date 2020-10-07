@@ -11,6 +11,7 @@ import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import  { StyledCard, StyledCardMedia } from '../StyledComponents/StyledCard';
 import SpringModal from './Modal';
+import FormDialog from './Dialog';
 
 
 type propsData = {
@@ -74,7 +75,7 @@ const Item: FunctionComponent<propsData> = (props) => {
                     </FormControl>
                 </CardActions>
             </StyledCard>
-            <SpringModal handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
+            <FormDialog handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
         </Container>
     );
 }
