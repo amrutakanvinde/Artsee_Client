@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import APIURL from "../helpers/environment";
-import { UserDetails, ItemDetails, CartDetails } from '../Interfaces';
-import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button } from '@material-ui/core';
+import { CartDetails } from '../Interfaces';
+import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import StyledList from '../StyledComponents/StyledList';
+import {
+    Route,
+    Link,
+    Switch, BrowserRouter as Router
+} from 'react-router-dom';
+import Checkout from './Checkout';
+import App from '../App';
 
 type CartData = {
-    // cartDetails: CartDetails,
-    // itemDetails: ItemDetails,
-    // userDetails: UserDetails,
     cartDetails: [CartDetails | null]
 }
 
 type propsData = {
     sessionToken: string | null
 }
+
+let subTotal: number = 0, numberOfItems: number = 0;
 
 class Cart extends Component<propsData, CartData> {
     constructor(props: propsData) {
@@ -25,6 +32,8 @@ class Cart extends Component<propsData, CartData> {
 
     componentDidMount() {
         this.fetchCart();
+        subTotal= 0;
+        numberOfItems= 0;
     }
 
     fetchCart = () => {
@@ -43,53 +52,10 @@ class Cart extends Component<propsData, CartData> {
                     } else return res.json();
                 })
                 .then((data) => {
-                    // let objCart:CartDetails = {
-                    //     quantity: 0,
-                    //     id: 0
-                    // };
-                    let objUser: UserDetails = {
-                        email: "",
-                        firstName: "",
-                        lastName: "",
-                        id: 0,
-                        password: "",
-                        role: "",
-                        userName: ""
-                    }
-
-                    let objItem: ItemDetails = {
-                        id: 0,
-                        itemName: "",
-                        price: 0,
-                        quantity: 0,
-                        sellerId: 0,
-                        itemImage: "",
-                        itemDescription: ""
-                    }
-                    // let arr: any = [{}];
-
                     console.log("Cart", data.cart);
                     this.setState({
                         cartDetails: data.cart
                     })
-                    //     this.state.cartDetails.push(data.cart[i]);
-                    // }
-                    // Object.entries(this.state.cartDetails).forEach(([key,value]) => { data.cart[key] = value })
-                    // for (let i = 0; i < data.cart.length; i++){
-                    //     console.log("Before", objCart)
-                    // Object.assign(obj, data.cart[i]);
-                    // objCart = {...objCart, ...data.cart[i]}
-                    // objItem = {...objItem, ...data.cart[i].item}
-                    // console.log("Item", data.cart[i].item)
-                    // Object.entries(obj).forEach(([key,value]) => { 
-                    //     data.cart[i][key] = value 
-                    //     console.log("Inside", data.cart[i][key], value)
-                    // })
-                    // arr.push({obj: obj})
-                    // console.log("After", objCart, objItem)
-                    // }
-
-                    // Object.assign(this.state.cartDetails,obj);
                 })
                 .catch((err) => alert(err));
         }
@@ -105,7 +71,7 @@ class Cart extends Component<propsData, CartData> {
                 }),
             })
                 .then((res) => {
-                   this.fetchCart()
+                    this.fetchCart()
                 })
                 .catch((err) => alert(err));
         }
@@ -113,36 +79,72 @@ class Cart extends Component<propsData, CartData> {
 
     render() {
         return (
-            <List style={{ width: '1000px', margin: 'auto', marginTop:'50px' }}>
-                {this.state.cartDetails?.map((value, index) => {
-                    let total = 0;
-                    if (value?.quantity && value?.item.price) {
-                        total = value?.quantity * value?.item.price
+            <Container>
+                <StyledList>
+                    {
+                        this.state.cartDetails?.map((value, index) => {
+                            let itemTotal = 0;
+                            if (value?.quantity && value?.item.price) {
+                                itemTotal = value?.quantity * value?.item.price
+                                subTotal = subTotal + itemTotal;
+                                numberOfItems = numberOfItems + value.quantity;
+                            }
+                            return (
+                                <ListItem style={{ borderBottom: '1px solid #eeeeee' }} key={index} button>
+                                    <ListItemAvatar>
+                                        <Avatar
+                                            alt={value?.item.itemName}
+                                            src={value?.item.itemImage}
+                                        />
+                                    </ListItemAvatar>
+                                    <ListItemText style={{ width: '50%' }}
+                                        id={value?.item.itemName} primary={value?.item.itemName} />
+                                    <ListItemText primary={`$${value?.item.price} `} />
+                                    <ListItemText primary={`${value?.quantity} `} />
+
+                                    <ListItemText primary={`$${itemTotal}`} />
+                                    <ListItemSecondaryAction >
+                                        <Button value={value?.id} onClick={e => { this.handleDelete(value?.id) }}>
+                                            <DeleteIcon />
+                                        </Button>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            )
+
+                        })
                     }
-                    return (
-                        <ListItem style={{ borderBottom: '1px solid #eeeeee' }} key={index} button>
-                            <ListItemAvatar>
-                                <Avatar
-                                    alt={value?.item.itemName}
-                                    src={value?.item.itemImage}
-                                />
-                            </ListItemAvatar>
-                            <ListItemText style={{ width: '50%' }}
-                                id={value?.item.itemName} primary={value?.item.itemName} />
-                            <ListItemText primary={`$${value?.item.price} `} />
-                            <ListItemText primary={`${value?.quantity} `} />
+                </StyledList>
+                <StyledList>
+                    <ListItem style={{ borderBottom: '1px solid #eeeeee', textAlign: 'right' }}>
+                        <ListItemText style={{ width: '80%', fontWeight: "bold" }}>
+                            Total({numberOfItems} items): ${subTotal}
+                        </ListItemText>
+                        <ListItemText style={{ width: '30px' }}>
+                        </ListItemText>
+                    </ListItem>
+                </StyledList>
 
-                            <ListItemText primary={`$${total}`} />
-                            <ListItemSecondaryAction >
-                                <Button value={value?.id} onClick={e => { this.handleDelete(value?.id) }}>
-                                    <DeleteIcon />
-                                </Button>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-
-                    )
-                })}
-            </List>
+                <StyledList>
+                    <ListItem style={{ borderBottom: '1px solid #eeeeee', textAlign: 'right' }}>
+                        <ListItemSecondaryAction style={{ width: '80%' }}>
+                            {/* <Router> */}
+                                {/* <Button color='primary'> */}
+                                    <Link to="/checkout"> Proceed to Checkout </Link>
+                                {/* </Button> */}
+                                {/* <Switch>
+                                    <Route exact path="/checkout">
+                                        
+                                        <Checkout />
+                                    </Route>
+                                </Switch> */}
+                            {/* </Router> */}
+                        </ListItemSecondaryAction>
+                        <ListItemText style={{ width: '30px' }}>
+                        </ListItemText>
+                    </ListItem>
+                </StyledList>
+                
+            </Container>
         )
     }
 }

@@ -9,7 +9,10 @@ type BuyerData = {
 }
 
 type propsData = {
-    sessionToken: string | null
+    sessionToken: string | null,
+    handleOpen: () => void,
+    handleClose: () => void,
+    modalOpen: boolean
 }
 
 const StyledGrid = withStyles({
@@ -28,7 +31,6 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     }
 
     fetchItems = () => {
-
         if (this.props.sessionToken) {
             fetch(`${APIURL}/item/all/`, {
                 method: "GET",
@@ -85,9 +87,13 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     }
 
     componentDidMount() {
+        // console.log("MOUNTED")
         this.fetchItems();
     }
 
+    componentDidUpdate(){
+        console.log("UPDATE");
+    }
     render() {
         return (
 
@@ -97,7 +103,7 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem} />
+                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} />
                             </Grid>
                         )
                     })

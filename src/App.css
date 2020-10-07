@@ -60,6 +60,7 @@
   color:rgb(71, 1, 1);
 }
 
-.hideNav{
-  
+.customBackdrop{
+  background-color: #EEEEEE !important;
+  opacity: 0.3 !important;
 }

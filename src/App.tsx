@@ -11,6 +11,7 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom';
 import Cart from './Components/Cart';
+import Checkout from './Components/Checkout';
 
 
 type AppData = {
@@ -24,7 +25,7 @@ class App extends React.Component<{}, AppData> {
 
     this.state = {
       sessionToken: localStorage.getItem('token') ? localStorage.getItem('token') : "",
-      userRole: null
+      userRole: "buyer" //find a better solution
     }
   }
 
@@ -32,13 +33,11 @@ class App extends React.Component<{}, AppData> {
     this.setState({
       userRole: role
     })
-    // console.log("role",role)
   }
 
   updateUser = (user: UserData) => {
     localStorage.setItem('token', user.sessionToken);
     this.setUserRole(user.user.role);
-    // console.log("user", user.user.role)
     this.setState({
       sessionToken: user.sessionToken
     })
@@ -78,6 +77,9 @@ class App extends React.Component<{}, AppData> {
               </Route>
               <Route exact path="/cart">
                 <Cart sessionToken={this.state.sessionToken} />
+              </Route>
+              <Route exact path="/checkout">
+                <Checkout  />
               </Route>
             </Switch>
           </div>

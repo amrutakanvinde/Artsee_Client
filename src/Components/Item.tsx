@@ -9,6 +9,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
+import  { StyledCard, StyledCardMedia } from '../StyledComponents/StyledCard';
+import SpringModal from './Modal';
+
 
 type propsData = {
     id: number,
@@ -18,20 +21,11 @@ type propsData = {
     sellerId: number,
     itemImage: string,
     itemDescription: string,
-    addItem: (id: number, quantity: number) => void 
+    addItem: (id: number, quantity: number) => void,
+    handleOpen: () => void,
+    handleClose: () => void,
+    modalOpen: boolean 
 }
-
-const StyledCard = withStyles({
-    root: {
-        maxWidth: 345,
-    }
-})(Card);
-
-const StyledCardMedia = withStyles({
-    root: {
-        height: 200
-    }
-})(CardMedia)
 
 const Item: FunctionComponent<propsData> = (props) => {
 
@@ -52,7 +46,7 @@ const Item: FunctionComponent<propsData> = (props) => {
     return (
         <Container key={props.id}>
             <StyledCard >
-                <CardActionArea>
+                <CardActionArea onClick={() => props.handleOpen()}>
                     <StyledCardMedia
                         image={props.itemImage}
                         title={props.itemName}
@@ -80,6 +74,7 @@ const Item: FunctionComponent<propsData> = (props) => {
                     </FormControl>
                 </CardActions>
             </StyledCard>
+            <SpringModal handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
         </Container>
     );
 }
