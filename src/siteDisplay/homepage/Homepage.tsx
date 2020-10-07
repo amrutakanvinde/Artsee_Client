@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import { BuyerHome } from './BuyerHome';
-import Cart from '../Components/Cart'
 import SellerHome from './SellerHome';
 import AdminHome from './AdminHome';
-
 
 type HomeData = {
     modalOpen: boolean
@@ -13,10 +11,9 @@ type HomeData = {
 type propsData = {
     clearToken: () => void,
     sessionToken: string | null,
-    role: string | null
+    role: string | null,
+    hashMyString: (str: string) => string,
 }
-
-
 
 export class Homepage extends Component<propsData, HomeData> {
     constructor(props: propsData) {
@@ -40,13 +37,14 @@ export class Homepage extends Component<propsData, HomeData> {
       };
 
     render() {
+        let currentRole = localStorage.getItem("role");
         return (
             <div className="divHome">
-                {this.props.role === "buyer" ? 
+                {currentRole === this.props.hashMyString("buyer") ? 
                 <BuyerHome sessionToken={this.props.sessionToken} handleOpen= {this.handleOpen} handleClose={this.handleClose} modalOpen={this.state.modalOpen}/>
-                :this.props.role === "seller" ?
+                :currentRole === this.props.hashMyString("seller") ?
                 <SellerHome /> 
-                :this.props.role === "admin" ?
+                :currentRole === this.props.hashMyString("admin") ?
                 <AdminHome /> : ""
                 }
             </div>

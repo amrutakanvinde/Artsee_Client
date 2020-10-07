@@ -72,8 +72,6 @@ class SignUp extends Component<propsData, SignupData> {
     render() {
 
         return (
-            // <div style = {{textAlign: 'center' }}>
-            //     <h1> Sign Up</h1>
             <FormControl>
                 <TextField label="First Name" variant="outlined"
                     onChange={e => {
@@ -103,7 +101,6 @@ class SignUp extends Component<propsData, SignupData> {
                 <br />
                 <Button variant="contained"  onClick={e => { this.handleSubmit(e) }}>Sign Up</Button>
             </FormControl>
-            // </div>
         )
     }
 }

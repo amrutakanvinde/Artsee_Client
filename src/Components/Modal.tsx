@@ -27,7 +27,6 @@ const SimpleModal: FunctionComponent<propsData> = (props) => {
       </p>
     </div>
   );
-let x;
   return (
     <div>
       <Modal

@@ -9,9 +9,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
-import  { StyledCard, StyledCardMedia } from '../StyledComponents/StyledCard';
+import  { StyledCard, StyledCardMedia } from '../styledComponents/StyledCard';
 import SpringModal from './Modal';
 import FormDialog from './Dialog';
+import { CustomizedSnackbars } from './Snackbar';
 
 
 type propsData = {
@@ -76,6 +77,7 @@ const Item: FunctionComponent<propsData> = (props) => {
                 </CardActions>
             </StyledCard>
             <FormDialog handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
+            <CustomizedSnackbars handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
         </Container>
     );
 }

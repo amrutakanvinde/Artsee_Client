@@ -64,3 +64,7 @@
   background-color: #7F7F7F !important;
   opacity: 0.3 !important;
 }
+
+.hide{
+  display:none;  
+}

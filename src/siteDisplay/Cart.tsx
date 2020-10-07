@@ -3,7 +3,7 @@ import APIURL from "../helpers/environment";
 import { CartDetails } from '../Interfaces';
 import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import StyledList from '../StyledComponents/StyledList';
+import StyledList from '../styledComponents/StyledList';
 import {
     Route,
     Link,
@@ -86,7 +86,7 @@ class Cart extends Component<propsData, CartData> {
                             let itemTotal = 0;
                             if (value?.quantity && value?.item.price) {
                                 itemTotal = value?.quantity * value?.item.price
-                                subTotal = subTotal + itemTotal;
+                                subTotal = Math.round( (subTotal + itemTotal) * 100 + Number.EPSILON ) / 100;
                                 numberOfItems = numberOfItems + value.quantity;
                             }
                             return (

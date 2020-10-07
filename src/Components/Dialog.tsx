@@ -11,9 +11,9 @@ type propsData = {
     handleOpen: () => void,
     handleClose: () => void,
     modalOpen: boolean 
-}
+} 
 
-const FormDialog: FunctionComponent<propsData> = (props) => {
+export const FormDialog: FunctionComponent<propsData> = (props) => {
 
   return (
     <div>

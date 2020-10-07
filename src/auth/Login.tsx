@@ -23,7 +23,7 @@ class Login extends Component<propsData, LoginData> {
 
   handleSubmit = (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
-    console.log("GHERE")
+    // console.log("GHERE")
     fetch(`${APIURL}/user/login/`, {
       method: "POST",
       body: JSON.stringify({
@@ -52,8 +52,6 @@ class Login extends Component<propsData, LoginData> {
 
   render() {
     return (
-      // <div style = {{textAlign: 'center' }}>
-      //     <h1>Login</h1>
       <FormControl >
         <TextField label="Email" variant="outlined"
           onChange={e => {
@@ -67,7 +65,6 @@ class Login extends Component<propsData, LoginData> {
         <br />
         <Button variant="contained" onClick={e => { this.handleSubmit(e) }}>Login</Button>
       </FormControl>
-      // </div>
     )
   }
 }

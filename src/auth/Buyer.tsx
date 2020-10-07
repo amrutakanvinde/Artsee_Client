@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SignUp from './SignUp';
 import Login from './Login';
 import { Container, Typography, withStyles } from '@material-ui/core';
-import StyledContainer from '../StyledComponents/StyledContainer'
+import StyledContainer from '../styledComponents/StyledContainer'
 import { UserData } from '../Interfaces';
 
 type AcceptedProps = {

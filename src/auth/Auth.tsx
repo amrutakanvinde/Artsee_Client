@@ -47,7 +47,7 @@ export class Auth extends React.Component<propsData, SessionData> {
     constructor(props: propsData) {
         super(props)
         this.state = {
-            role: "buyer",
+            role: "",
             value: 0
         }
     }

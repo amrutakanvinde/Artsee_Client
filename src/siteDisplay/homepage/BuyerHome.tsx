@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import APIURL from "../helpers/environment";
-import Item from '../Components/Item'
-import { ItemDetails } from '../Interfaces'
+import APIURL from "../../helpers/environment";
+import Item from '../../components/Item'
+import { ItemDetails } from '../../Interfaces'
 import { Grid, withStyles } from '@material-ui/core';
 
 type BuyerData = {
