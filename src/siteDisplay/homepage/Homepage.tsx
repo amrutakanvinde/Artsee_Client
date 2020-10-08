@@ -43,7 +43,7 @@ export class Homepage extends Component<propsData, HomeData> {
                 {currentRole === this.props.hashMyString("buyer") ? 
                 <BuyerHome sessionToken={this.props.sessionToken} handleOpen= {this.handleOpen} handleClose={this.handleClose} modalOpen={this.state.modalOpen}/>
                 :currentRole === this.props.hashMyString("seller") ?
-                <SellerHome /> 
+                <SellerHome sessionToken={this.props.sessionToken}/> 
                 :currentRole === this.props.hashMyString("admin") ?
                 <AdminHome /> : ""
                 }
