@@ -1,21 +1,34 @@
 import React, { Component } from 'react'
 import ItemDataGrid from '../../components/DataGrid'
 import APIURL from "../../helpers/environment";
+// import { MuiThemeProvider } from '@material-ui/styles/MuiThemeProvider';
+import Table from '../../components/Table'
+import BasicTable from '../../components/BasicTable';
+import { ItemDetails } from '../../Interfaces';
 
 type propsData = {
     sessionToken: string | null
 }
 
 type SellerData = {
-    itemData: []
+    itemData: [ItemDetails],
+    // data: []
 }
 
 export class SellerHome extends Component<propsData, SellerData> {
 
-    constructor(props: propsData){
+    constructor(props: propsData) {
         super(props)
         this.state = {
-            itemData: []
+            itemData: [{
+                id: 0,
+                itemName: '',
+                price: 0,
+                quantity: 0,
+                sellerId: 0,
+                itemImage: '',
+                itemDescription: ''
+            }]
         }
     }
 
@@ -40,7 +53,7 @@ export class SellerHome extends Component<propsData, SellerData> {
                     } else return res.json();
                 })
                 .then((data) => {
-                    // console.log(data.item);
+                    console.log(data.item);
                     this.setState({
                         itemData: data.item
                     })
@@ -53,7 +66,8 @@ export class SellerHome extends Component<propsData, SellerData> {
         return (
             <div>
                 <h1>Seller home page</h1>
-                <ItemDataGrid itemData={this.state.itemData} />
+                {/* <ItemDataGrid itemData={this.state.itemData} /> */}
+                   <BasicTable itemData={this.state.itemData}/>
             </div>
         )
     }
