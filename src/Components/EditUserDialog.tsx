@@ -54,7 +54,7 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
 
     editUser = () => {
 
-        console.log("On Edit", this.props.userData)
+        console.log("On Edit",  this.state.role)
         if (this.props.sessionToken && this.props.userData) {
 
             fetch(`${APIURL}/user/${this.props.userData.id}`, {
@@ -79,7 +79,7 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
                         throw new Error("fetch error");
                     }
                     else {
-                        console.log("Item edited successfully")
+                        // console.log("Item edited successfully")
                         this.props.handleClose();
                         this.props.openSnackbar("success");
                     }
@@ -135,7 +135,12 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
                         <br />
                          <FormControl style={{ width: '50%' }}>
                             <InputLabel style={{ textAlign: 'right' }}>Category</InputLabel>
-                            <Select onChange={(e) => console.log(e.target.value)} 
+                            <Select 
+                            onChange={(e: React.ChangeEvent<{ value: unknown }>) => {
+                                if(this.state.role && e.target.value){
+                                this.setState({
+                                    role: e.target.value as string
+                            })}}} 
                             defaultValue={this.props.userData?.role}>
                                 <MenuItem value={"admin"}>Admin</MenuItem>
                                 <MenuItem value={"buyer"}>Buyer</MenuItem>

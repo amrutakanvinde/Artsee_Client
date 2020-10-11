@@ -15,31 +15,31 @@ import { Button, TextField } from '@material-ui/core';
 
 type propsData = {
     userData: [UserDetails],
-    onEditLoad: (id:number) => void,
+    onEditLoad: (id: number) => void,
+    handleConfirmationDeleteAdmin: (id: number, role: string) => void,
+    handleRoleChangeAtAdmin: (id: number, role: string) => void,
     // handleDelete: (id:number) => void,
 }
 
 const AdminTable: React.FunctionComponent<propsData> = (props) => {
     const rows = props.userData;
-    console.log("Admin",rows)
+    // console.log("Admin",rows)
     return (
         <TableContainer component={Paper}>
-            <Table
-                //   className={classes.table} 
-                aria-label="simple table">
+            <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>Last Name</TableCell>
-                        <TableCell >User Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell align="right">Role</TableCell>
-                        <TableCell align="center">Grant Admin</TableCell>
-                        <TableCell align="center">Edit</TableCell>
-                        <TableCell align="center">Delete</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>First Name</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Last Name</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>User Name</TableCell>
+                        <TableCell style={{ fontWeight: 'bold' }}>Email</TableCell>
+                        <TableCell align="right" style={{ fontWeight: 'bold' }}>Role</TableCell>
+                        <TableCell align="center" style={{ fontWeight: 'bold' }}>Grant Admin</TableCell>
+                        <TableCell align="center" style={{ fontWeight: 'bold' }}>Edit</TableCell>
+                        <TableCell align="center" style={{ fontWeight: 'bold' }}>Delete</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody> 
+                <TableBody>
                     {rows.map((row) => (
                         <TableRow key={row.id}>
                             <TableCell>
@@ -55,30 +55,31 @@ const AdminTable: React.FunctionComponent<propsData> = (props) => {
                             <TableCell align="right">{row.role}</TableCell>
                             <TableCell align="center">
                                 <Button value={row.id} >
-                                    <BrightnessAutoIcon  
-                                    // onClick={(e)=> props.onEditLoad(row.id)}
+                                    <BrightnessAutoIcon
+                                        onClick={() => props.handleRoleChangeAtAdmin(row.id, row.role)}
+
                                     />
                                 </Button>
                             </TableCell>
                             <TableCell align="center">
                                 <Button value={row.id} >
-                                    <EditIcon  
-                                    onClick={(e)=> props.onEditLoad(row.id)}
+                                    <EditIcon
+                                        onClick={(e) => props.onEditLoad(row.id)}
                                     />
                                 </Button>
                             </TableCell>
                             <TableCell align="center">
                                 <Button>
 
-                                <DeleteIcon 
-                                // onClick={()=> props.handleDelete(row.id)}
-                                />
+                                    <DeleteIcon
+                                        onClick={() => props.handleConfirmationDeleteAdmin(row.id, row.role)}
+                                    />
                                 </Button>
                             </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
-                
+
             </Table>
         </TableContainer>
     );

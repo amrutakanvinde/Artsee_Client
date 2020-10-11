@@ -19,7 +19,6 @@ type propsData = {
     handleEditItem: () => void,
     handleClose: () => void,
     openSnackbar: (str: string) => void,
-    successAlert: () => void
 }
 
 type SellerData = {
@@ -137,7 +136,7 @@ export class SellerHome extends Component<propsData, SellerData> {
             })
              .then((res) => {
                     this.props.openSnackbar("success")
-                    this.props.successAlert()
+                    // this.props.successAlert()
                     this.fetchItems()
             })
             .catch((err) => this.props.openSnackbar("error"));

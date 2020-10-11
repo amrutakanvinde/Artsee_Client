@@ -15,7 +15,6 @@ type propsData = {
     handleOpen: (item: ItemDetails) => ItemDetails,
     handleClose: () => void,
     openSnackbar: (str: string) => void,
-    successAlert: () => void
 }
 
 const StyledGrid = withStyles({

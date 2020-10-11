@@ -89,18 +89,7 @@ class App extends React.Component<{}, AppData> {
   Alert = (props: AlertProps) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-
-  successAlert = () => {
-    console.log("SnackBr")
-    return (
-      <Snackbar open={this.state.modalOpen} autoHideDuration={6000} onClose={this.handleClose}>
-      <this.Alert onClose={this.handleClose} severity="success">
-        This is a success message!
-      </this.Alert>
-    </Snackbar>
-    )
-  }
-
+  
   render() {
     // console.log("Role",this.state.userRole)
     const session = localStorage.getItem("token")
@@ -125,7 +114,7 @@ class App extends React.Component<{}, AppData> {
           <div className="navbarRoute">
             <Switch>
               <Route exact path="/">
-                <Homepage clearToken={this.clearToken} sessionToken={session} role={this.state.userRole} hashMyString={this.hashMyString} successAlert={this.successAlert}/>
+                <Homepage clearToken={this.clearToken} sessionToken={session} role={this.state.userRole} hashMyString={this.hashMyString} />
               </Route>
               <Route exact path="/cart">
                 <Cart sessionToken={this.state.sessionToken} />
