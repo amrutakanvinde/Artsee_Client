@@ -13,6 +13,7 @@ type HomeData = {
     item: ItemDetails,
     addItemModal: boolean,
     editItemModal: boolean,
+    editUserModal: boolean,
 }
 
 type propsData = {
@@ -32,6 +33,7 @@ export class Homepage extends Component<propsData, HomeData> {
             severity: "",
             addItemModal: false,
             editItemModal: false,
+            editUserModal: false,
             item: {
                 id: 0,
                 itemName: '',
@@ -82,12 +84,19 @@ export class Homepage extends Component<propsData, HomeData> {
         })
       }
 
+      handleEditUser = () => {
+        this.setState({
+            editUserModal: true
+        })
+      }
+
        handleClose = () => {
         this.setState({
             modalOpen: false,
             snackbarOpen: false,
             addItemModal: false,
             editItemModal: false,
+            editUserModal: false
         })
 
       };
@@ -101,7 +110,7 @@ export class Homepage extends Component<propsData, HomeData> {
                 :currentRole === this.props.hashMyString("seller") ?
                 <SellerHome sessionToken={this.props.sessionToken} addItemModal={this.state.addItemModal} handleAddItem={this.handleAddItem} handleClose={this.handleClose} openSnackbar= {this.openSnackbar} snackbarOpen={this.state.snackbarOpen} editItemModal={this.state.editItemModal} handleEditItem={this.handleEditItem} successAlert={this.props.successAlert}/> 
                 :currentRole === this.props.hashMyString("admin") ?
-                <AdminHome /> : ""
+                <AdminHome sessionToken={this.props.sessionToken} handleEditUser={this.handleEditUser}  editUserModal={this.state.editUserModal} handleClose={this.handleClose} openSnackbar= {this.openSnackbar} snackbarOpen={this.state.snackbarOpen}/> : ""
                 }
                  <CustomizedSnackbars handleClose={this.handleClose} snackbarOpen={this.state.snackbarOpen} severity={this.state.severity}/>
             </div>

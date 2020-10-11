@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ItemDataGrid from '../../components/DataGrid'
 import APIURL from "../../helpers/environment";
 // import { MuiThemeProvider } from '@material-ui/styles/MuiThemeProvider';
-import BasicTable from '../../components/BasicTable';
+import SellerTable from '../../components/SellerTable';
 import { ItemDetails, Category } from '../../Interfaces';
 import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
@@ -158,7 +158,7 @@ export class SellerHome extends Component<propsData, SellerData> {
                 >
                     Add New Item
                 </Button>
-                <BasicTable itemData={this.state.itemData} onEditLoad={this.onEditLoad} handleDelete={this.handleDelete} />
+                <SellerTable itemData={this.state.itemData} onEditLoad={this.onEditLoad} handleDelete={this.handleDelete} />
 
                 <AddItemDialog sessionToken={this.props.sessionToken} addItemModal={this.props.addItemModal} handleClose={this.closeAddEditModal} categories={this.state.categories} snackbarOpen={this.props.snackbarOpen} openSnackbar={this.props.openSnackbar} />
 

@@ -18,7 +18,7 @@ type propsData = {
     handleDelete: (id:number) => void,
 }
 
-const BasicTable: React.FunctionComponent<propsData> = (props) => {
+const SellerTable: React.FunctionComponent<propsData> = (props) => {
     const rows = props.itemData;
     return (
         <TableContainer component={Paper}>
@@ -66,4 +66,4 @@ const BasicTable: React.FunctionComponent<propsData> = (props) => {
     );
 }
 
-export default BasicTable;
+export default SellerTable;

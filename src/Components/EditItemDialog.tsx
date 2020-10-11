@@ -30,7 +30,7 @@ type EditItemData = {
     itemCategory: [number]
 }
 
-export class EditItemDialog extends Component<propsData, EditItemData> {
+export class EditUserDialog extends Component<propsData, EditItemData> {
 
     constructor(props: propsData) {
         super(props)
@@ -103,8 +103,8 @@ export class EditItemDialog extends Component<propsData, EditItemData> {
                     }
                     else {
                         console.log("Item edited successfully")
-                        this.props.openSnackbar("success");
                         this.props.handleClose();
+                        this.props.openSnackbar("success");
                     }
                     //Add the number on cart item
                 })
@@ -135,6 +135,7 @@ export class EditItemDialog extends Component<propsData, EditItemData> {
 
                         <TextField label="Description" variant="outlined"
                             defaultValue={this.props.itemData.itemDescription}
+                            multiline
                             onChange={e => {
                                 this.setState({ itemDescription: e.target.value })
                             }}
@@ -186,4 +187,4 @@ export class EditItemDialog extends Component<propsData, EditItemData> {
     }
 }
 
-export default EditItemDialog;
+export default EditUserDialog;
