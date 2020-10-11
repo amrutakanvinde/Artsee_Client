@@ -12,33 +12,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button, TextField } from '@material-ui/core';
 
-// const useStyles = makeStyles({
-//   table: {
-//     minWidth: 650,
-//   },
-// });
-
 type propsData = {
-    itemData: [ItemDetails]
+    itemData: [ItemDetails],
+    onEditLoad: (id:number) => void,
+    handleDelete: (id:number) => void,
 }
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-    return { name, calories, fat, carbs, protein };
-}
-
-// createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-// createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-// createData('Eclair', 262, 16.0, 24, 6.0),
-// createData('Cupcake', 305, 3.7, 67, 4.3),
-// createData('Gingerbread', 356, 16.0, 49, 3.9),
-
-
-
 
 const BasicTable: React.FunctionComponent<propsData> = (props) => {
     const rows = props.itemData;
-
-    //   const classes = useStyles();
-
     return (
         <TableContainer component={Paper}>
             <Table
@@ -70,12 +51,12 @@ const BasicTable: React.FunctionComponent<propsData> = (props) => {
                             <TableCell align="right">{row.quantity}</TableCell>
                             <TableCell align="right">{row.price}</TableCell>
                             <TableCell align="right">
-                                <Button>
-                                    <EditIcon onClick={()=> alert("Edit")}/>
+                                <Button value={row.id} >
+                                    <EditIcon  onClick={(e)=> props.onEditLoad(row.id)}/>
                                 </Button>
                             </TableCell>
                             <TableCell align="right">
-                                <DeleteIcon onClick={()=> alert("Delete")}/>
+                                <DeleteIcon onClick={()=> props.handleDelete(row.id)}/>
                             </TableCell>
                         </TableRow>
                     ))}

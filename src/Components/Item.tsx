@@ -11,7 +11,7 @@ import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
 import { StyledCard, StyledCardMedia } from '../styledComponents/StyledCard';
 import FormDialog from './Dialog';
-import { CustomizedSnackbars } from './Snackbar';
+// import { CustomizedSnackbars } from './CustomizedSnackbar';
 import { ItemDetails } from '../Interfaces';
 
 
@@ -92,7 +92,7 @@ const Item: FunctionComponent<propsData> = (props) => {
                 </CardActions>
             </StyledCard>
             <FormDialog handleClose={props.handleClose} modalOpen={props.modalOpen} itemDisplay = {itemDisplay} />
-            <CustomizedSnackbars handleClose={props.handleClose} snackbarOpen={props.snackbarOpen}/>
+            {/* <CustomizedSnackbars handleClose={props.handleClose} snackbarOpen={props.snackbarOpen}/> */}
         </Container>
     );
 }

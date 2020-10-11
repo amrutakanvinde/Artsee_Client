@@ -33,7 +33,7 @@ export interface CartDetails {
     userId: number
 }
 
-export interface Categories {
+export interface Category {
     id: number,
     categoryName: string
 }

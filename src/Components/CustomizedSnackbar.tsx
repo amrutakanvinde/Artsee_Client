@@ -10,8 +10,9 @@ function Alert(props: AlertProps) {
 
 type propsData = {
     // handleOpen: () => void,
+    snackbarOpen: boolean,
+    severity: string, 
     handleClose: () => void,
-    snackbarOpen: boolean 
 }
 
 export const CustomizedSnackbars: FunctionComponent<propsData> = (props) => {
@@ -24,6 +25,10 @@ export const CustomizedSnackbars: FunctionComponent<propsData> = (props) => {
     props.handleClose();
   };
 
+  const severity = props.severity === "success" ? "success": "error";
+
+  const message = props.severity === "success" ? "Operation completed successfully": "Error executing request";
+
   return (
     <div style ={{
         width: '100%',
@@ -32,8 +37,9 @@ export const CustomizedSnackbars: FunctionComponent<propsData> = (props) => {
         // }
     }}>
       <Snackbar open={props.snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          Item added to the cart!
+        
+        <Alert onClose={handleClose} severity={severity}>
+          {message}
         </Alert>
       </Snackbar>
     </div>

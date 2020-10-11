@@ -3,23 +3,29 @@ import ItemDataGrid from '../../components/DataGrid'
 import APIURL from "../../helpers/environment";
 // import { MuiThemeProvider } from '@material-ui/styles/MuiThemeProvider';
 import BasicTable from '../../components/BasicTable';
-import { ItemDetails, Categories } from '../../Interfaces';
+import { ItemDetails, Category } from '../../Interfaces';
 import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
 import AddItemDialog from '../../components/AddItemDialog';
+import EditItemDialog from '../../components/EditItemDialog';
 
 
 type propsData = {
     sessionToken: string | null,
     addItemModal: boolean,
+    editItemModal: boolean,
+    snackbarOpen: boolean,
     handleAddItem: () => void,
+    handleEditItem: () => void,
     handleClose: () => void,
+    openSnackbar: (str: string) => void,
+    successAlert: () => void
 }
 
 type SellerData = {
     itemData: [ItemDetails],
-    categories: Categories
-    // data: []
+    categories: [Category],
+    editData: ItemDetails | null
 }
 
 export class SellerHome extends Component<propsData, SellerData> {
@@ -36,10 +42,11 @@ export class SellerHome extends Component<propsData, SellerData> {
                 itemImage: '',
                 itemDescription: ''
             }],
-            categories: {
+            categories: [{
                 id: 0,
                 categoryName: ''
-            }
+            }],
+            editData: null
         }
     }
 
@@ -74,6 +81,11 @@ export class SellerHome extends Component<propsData, SellerData> {
         }
     }
 
+    closeAddEditModal = () => {
+        this.fetchItems();
+        this.props.handleClose();
+    }
+
     getAllCategories = () => {
 
         console.log("Fetch categories")
@@ -91,7 +103,7 @@ export class SellerHome extends Component<propsData, SellerData> {
                     } else return res.json();
                 })
                 .then((data) => {
-                    console.log(data.category);
+                    // console.log(data.category);
                     this.setState({
                         categories: data.category
                     })
@@ -101,11 +113,43 @@ export class SellerHome extends Component<propsData, SellerData> {
 
     }
 
+    onEditLoad = (id: number) => {
+        // console.log("Edit Load",)
+        const clickedItem: ItemDetails | undefined = this.state.itemData.find(el => el.id === id)
+        if (clickedItem) {
+            this.setState({
+                editData: clickedItem
+            })
+            this.props.handleEditItem();
+
+        }
+    }
+
+    handleDelete = (id: number | undefined) => {
+
+        if (this.props.sessionToken) {
+            fetch(`${APIURL}/item/${id}`, {
+                method: "DELETE",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    'Authorization': this.props.sessionToken
+                }),
+            })
+             .then((res) => {
+                    this.props.openSnackbar("success")
+                    this.props.successAlert()
+                    this.fetchItems()
+            })
+            .catch((err) => this.props.openSnackbar("error"));
+        }
+    }
+
     render() {
+        // console.log("Seller page Render")
         return (
             <div>
-                <h1 style={{textAlign: 'center'}}>Seller home page</h1>
-                <Button 
+                <h1 style={{ textAlign: 'center' }}>Seller home page</h1>
+                <Button
                     variant="contained"
                     color="primary"
                     // className={classes.button}
@@ -114,8 +158,14 @@ export class SellerHome extends Component<propsData, SellerData> {
                 >
                     Add New Item
                 </Button>
-                <BasicTable itemData={this.state.itemData} />
-                <AddItemDialog sessionToken={this.props.sessionToken} addItemModal={this.props.addItemModal}  handleClose={this.props.handleClose} categories={this.state.categories}/>
+                <BasicTable itemData={this.state.itemData} onEditLoad={this.onEditLoad} handleDelete={this.handleDelete} />
+
+                <AddItemDialog sessionToken={this.props.sessionToken} addItemModal={this.props.addItemModal} handleClose={this.closeAddEditModal} categories={this.state.categories} snackbarOpen={this.props.snackbarOpen} openSnackbar={this.props.openSnackbar} />
+
+                {this.state.editData !== null ?
+
+                    <EditItemDialog sessionToken={this.props.sessionToken} editItemModal={this.props.editItemModal} handleClose={this.closeAddEditModal} categories={this.state.categories} snackbarOpen={this.props.snackbarOpen} openSnackbar={this.props.openSnackbar} itemData={this.state.editData} />
+                    : ""}
             </div>
         )
     }

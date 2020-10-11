@@ -14,7 +14,6 @@ import Cart from './siteDisplay/Cart';
 import Checkout from './siteDisplay/Checkout';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
-
 type AppData = {
   sessionToken: string | null,
   userRole: string | null,
@@ -92,6 +91,7 @@ class App extends React.Component<{}, AppData> {
   }
 
   successAlert = () => {
+    console.log("SnackBr")
     return (
       <Snackbar open={this.state.modalOpen} autoHideDuration={6000} onClose={this.handleClose}>
       <this.Alert onClose={this.handleClose} severity="success">
@@ -125,7 +125,7 @@ class App extends React.Component<{}, AppData> {
           <div className="navbarRoute">
             <Switch>
               <Route exact path="/">
-                <Homepage clearToken={this.clearToken} sessionToken={session} role={this.state.userRole} hashMyString={this.hashMyString}/>
+                <Homepage clearToken={this.clearToken} sessionToken={session} role={this.state.userRole} hashMyString={this.hashMyString} successAlert={this.successAlert}/>
               </Route>
               <Route exact path="/cart">
                 <Cart sessionToken={this.state.sessionToken} />

@@ -14,7 +14,8 @@ type propsData = {
     snackbarOpen: boolean,
     handleOpen: (item: ItemDetails) => ItemDetails,
     handleClose: () => void,
-    openSnackbar: () => void
+    openSnackbar: (str: string) => void,
+    successAlert: () => void
 }
 
 const StyledGrid = withStyles({
@@ -81,11 +82,11 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                     }
                     else {
                         console.log("Item added successfully")
-                        this.props.openSnackbar();
+                        this.props.openSnackbar("success");
                     }
                     //Add the number on cart item
                 })
-                .catch((err) => console.log(err));
+                .catch((err) => this.props.openSnackbar(err));
         }
     }
 

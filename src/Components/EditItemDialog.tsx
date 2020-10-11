@@ -13,14 +13,15 @@ import APIURL from "../helpers/environment";
 
 type propsData = {
     sessionToken: string | null,
-    addItemModal: boolean,
+    editItemModal: boolean,
     snackbarOpen: boolean,
     categories: [Category],
+    itemData: ItemDetails,
     handleClose: () => void,
     openSnackbar: (str: string) => void
 }
 
-type AddItemData = {
+type EditItemData = {
     itemName: string,
     itemDescription: string,
     itemQuantity: number,
@@ -29,24 +30,20 @@ type AddItemData = {
     itemCategory: [number]
 }
 
-export class AddItemDialog extends Component<propsData, AddItemData> {
+export class EditItemDialog extends Component<propsData, EditItemData> {
 
     constructor(props: propsData) {
         super(props)
+        console.log("Props display",this.props)
         this.state = {
-            itemName: '',
-            itemDescription: '',
-            itemQuantity: 0,
-            itemPrice: 0,
-            itemImageLink: '',
+            itemName: this.props.itemData.itemName,
+            itemDescription: this.props.itemData.itemDescription,
+            itemQuantity: this.props.itemData.quantity,
+            itemPrice: this.props.itemData.price,
+            itemImageLink: this.props.itemData.itemImage,
             itemCategory: [0]
         }
-        // console.log("constructor")
-    }
-
-    componentDidMount(){
-        // console.log("componentDidMount")
-
+        console.log("constructor")
     }
 
     handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -71,19 +68,19 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
     }
 
     // function to add multiple select 
-     handleChange = (event: React.ChangeEvent<{ value: number }>) => {
+    handleChange = (event: React.ChangeEvent<{ value: number }>) => {
         this.setState({
-            itemCategory: [event.target.value] 
+            itemCategory: [event.target.value]
         })
-      };
+    };
 
-    
+    editItem = () => {
 
-    addItem = () => {
+        console.log("On Edit", this.state.itemName, this.props.itemData.id)
         if (this.props.sessionToken) {
 
-            fetch(`${APIURL}/item/`, {
-                method: "POST",
+            fetch(`${APIURL}/item/${this.props.itemData.id}`, {
+                method: "PUT",
                 body: JSON.stringify({
                     item: {
                         itemName: this.state.itemName,
@@ -91,7 +88,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         price: this.state.itemPrice,
                         itemImage: this.state.itemImageLink,
                         itemDescription: this.state.itemDescription,
-                        category_ids: [this.state.itemCategory]
+                        // category_ids: [this.state.itemCategory]
                     },
                 }),
                 headers: new Headers({
@@ -105,7 +102,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         throw new Error("fetch error");
                     }
                     else {
-                        console.log("Item added successfully")
+                        console.log("Item edited successfully")
                         this.props.openSnackbar("success");
                         this.props.handleClose();
                     }
@@ -116,12 +113,9 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
     }
 
     render() {
-        // console.log("Add Item",this.props.itemData, this.props.isEdit)
-        // console.log("render")
-
         return (
             <div>
-                <Dialog open={this.props.addItemModal} onClose={() => this.handleClose} aria-labelledby="form-dialog-title"
+                <Dialog open={this.props.editItemModal} onClose={() => this.handleClose} aria-labelledby="form-dialog-title"
                     BackdropProps={{ invisible: false, classes: { root: 'customBackdrop' } }}>
                     <DialogTitle id="form-dialog-title">
                         Add New Item
@@ -131,15 +125,16 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <DialogContentText>
                         </DialogContentText>
                         <TextField label="Name" variant="outlined"
-                            value={this.state.itemName}
+                            defaultValue={this.props.itemData.itemName}
                             onChange={e => {
                                 this.setState({ itemName: e.target.value })
                             }}
-                        />
+                        ></TextField>
                         <br />
                         <br />
 
                         <TextField label="Description" variant="outlined"
+                            defaultValue={this.props.itemData.itemDescription}
                             onChange={e => {
                                 this.setState({ itemDescription: e.target.value })
                             }}
@@ -147,6 +142,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <br />
                         <br />
                         <TextField label="Quantity" variant="outlined"
+                            defaultValue={this.props.itemData.quantity}
                             onChange={e => {
                                 this.setState({ itemQuantity: parseInt(e.target.value) })
                             }}
@@ -154,6 +150,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <br />
                         <br />
                         <TextField label="Price" variant="outlined"
+                            defaultValue={this.props.itemData.price}
                             onChange={e => {
                                 this.setState({ itemPrice: parseFloat(e.target.value) })
                             }}
@@ -161,6 +158,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <br />
                         <br />
                         <TextField label="Image Link" variant="outlined"
+                            defaultValue={this.props.itemData.itemImage}
                             onChange={e => {
                                 this.setState({ itemImageLink: e.target.value })
                             }}
@@ -176,8 +174,8 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <Button onClick={this.props.handleClose} color="primary">
                             Cancel
                             </Button>
-                        <Button onClick={this.addItem} color="primary">
-                            Add Inventory
+                        <Button onClick={this.editItem} color="primary">
+                            Edit Inventory
                             </Button>
                     </DialogActions>
                 </Dialog>
@@ -188,4 +186,4 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
     }
 }
 
-export default AddItemDialog;
+export default EditItemDialog;
