@@ -20,7 +20,7 @@ type propsData = {
     sessionToken: string | null
 }
 
-let subTotal: number = 0, numberOfItems: number = 0;
+let subTotal: number = 0, numberOfItems: number = 0, itemTotal: number = 0;
 
 class Cart extends Component<propsData, CartData> {
     constructor(props: propsData) {
@@ -32,12 +32,16 @@ class Cart extends Component<propsData, CartData> {
 
     componentDidMount() {
         this.fetchCart();
-        subTotal= 0;
-        numberOfItems= 0;
+        subTotal = 0;
+        numberOfItems = 0;
+        itemTotal = 0;
     }
 
     fetchCart = () => {
         if (this.props.sessionToken) {
+            subTotal = 0;
+            numberOfItems = 0;
+            itemTotal = 0;
             console.log("Before Fetch")
             fetch(`${APIURL}/cart/`, {
                 method: "GET",
@@ -62,6 +66,7 @@ class Cart extends Component<propsData, CartData> {
     }
 
     handleDelete = (id: number | undefined) => {
+
         if (this.props.sessionToken) {
             fetch(`${APIURL}/cart/${id}`, {
                 method: "DELETE",
@@ -83,10 +88,10 @@ class Cart extends Component<propsData, CartData> {
                 <StyledList>
                     {
                         this.state.cartDetails?.map((value, index) => {
-                            let itemTotal = 0;
+
                             if (value?.quantity && value?.item.price) {
                                 itemTotal = value?.quantity * value?.item.price
-                                subTotal = Math.round( (subTotal + itemTotal) * 100 + Number.EPSILON ) / 100;
+                                subTotal = Math.round((subTotal + itemTotal) * 100 + Number.EPSILON) / 100;
                                 numberOfItems = numberOfItems + value.quantity;
                             }
                             return (
@@ -128,10 +133,10 @@ class Cart extends Component<propsData, CartData> {
                     <ListItem style={{ borderBottom: '1px solid #eeeeee', textAlign: 'right' }}>
                         <ListItemSecondaryAction style={{ width: '80%' }}>
                             {/* <Router> */}
-                                {/* <Button color='primary'> */}
-                                    <Link to="/checkout"> Proceed to Checkout </Link>
-                                {/* </Button> */}
-                                {/* <Switch>
+                            {/* <Button color='primary'> */}
+                            <Link to="/checkout"> Proceed to Checkout </Link>
+                            {/* </Button> */}
+                            {/* <Switch>
                                     <Route exact path="/checkout">
                                         
                                         <Checkout />
@@ -143,7 +148,7 @@ class Cart extends Component<propsData, CartData> {
                         </ListItemText>
                     </ListItem>
                 </StyledList>
-                
+
             </Container>
         )
     }

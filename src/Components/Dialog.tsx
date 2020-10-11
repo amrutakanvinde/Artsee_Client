@@ -6,43 +6,50 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { ItemDetails } from '../Interfaces';
 
 type propsData = {
-    handleOpen: () => void,
+    itemDisplay: ItemDetails,
+    modalOpen: boolean,
     handleClose: () => void,
-    modalOpen: boolean 
 } 
 
 export const FormDialog: FunctionComponent<propsData> = (props) => {
 
+  console.log(props.itemDisplay)
   return (
     <div>
+      {props.itemDisplay !== undefined ? 
       <Dialog open={props.modalOpen} onClose={props.handleClose} aria-labelledby="form-dialog-title"  
       BackdropProps = {{invisible: false, classes:{root:'customBackdrop'}}}>
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">{props.itemDisplay.itemName} Details</DialogTitle>
         <DialogContent>
+          <img src={props.itemDisplay.itemImage} style={{maxHeight:'250px', maxWidth:'250px'}}/>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+            {props.itemDisplay.itemDescription}
           </DialogContentText>
-          <TextField
+          
+
+          {/* <TextField
             autoFocus
             margin="dense"
             id="name"
             label="Email Address"
             type="email"
             fullWidth
-          />
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={props.handleClose} color="primary">
-            Subscribe
+            Add to Cart
           </Button>
         </DialogActions>
       </Dialog>
+        : ""
+        }
     </div>
   );
 }

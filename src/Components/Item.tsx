@@ -9,10 +9,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
-import  { StyledCard, StyledCardMedia } from '../styledComponents/StyledCard';
-import SpringModal from './Modal';
+import { StyledCard, StyledCardMedia } from '../styledComponents/StyledCard';
 import FormDialog from './Dialog';
 import { CustomizedSnackbars } from './Snackbar';
+import { ItemDetails } from '../Interfaces';
 
 
 type propsData = {
@@ -23,12 +23,14 @@ type propsData = {
     sellerId: number,
     itemImage: string,
     itemDescription: string,
+    modalOpen: boolean,
+    snackbarOpen: boolean,
     addItem: (id: number, quantity: number) => void,
-    handleOpen: () => void,
+    handleOpen: (item: ItemDetails) => ItemDetails,
     handleClose: () => void,
-    modalOpen: boolean 
+    // openSnackbar: () => void
 }
-
+let itemDisplay: ItemDetails;
 const Item: FunctionComponent<propsData> = (props) => {
 
     let quantity = 1;
@@ -45,10 +47,23 @@ const Item: FunctionComponent<propsData> = (props) => {
         return arr;
     }
 
+    const cardClick = () => {
+        let item = {
+            id: props.id,
+            itemName: props.itemName,
+            quantity: props.quantity,
+            price: props.price,
+            sellerId: props.sellerId,
+            itemImage: props.itemImage,
+            itemDescription: props.itemDescription
+        }
+        itemDisplay = props.handleOpen(item);
+    }
+
     return (
         <Container key={props.id}>
             <StyledCard >
-                <CardActionArea onClick={() => props.handleOpen()}>
+                <CardActionArea onClick={cardClick}>
                     <StyledCardMedia
                         image={props.itemImage}
                         title={props.itemName}
@@ -63,21 +78,21 @@ const Item: FunctionComponent<propsData> = (props) => {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size="small" color="primary" style={{marginTop:16, width: '50%'}} 
-                    onClick= {() => props.addItem(props.id, quantity)}> 
+                    <Button size="small" color="primary" style={{ marginTop: 16, width: '50%' }}
+                        onClick={() => props.addItem(props.id, quantity)}>
                         Add to Cart
                     </Button>
                     <FormControl style={{ width: '50%' }}>
-                        <InputLabel style={{textAlign: 'right'}}>Quantity</InputLabel>
+                        <InputLabel style={{ textAlign: 'right' }}>Quantity</InputLabel>
                         <Select
-                        onChange={(e) => updateQuantity(e.target.value)}>
+                            onChange={(e) => updateQuantity(e.target.value)}>
                             {mapQuantity()}
                         </Select>
                     </FormControl>
                 </CardActions>
             </StyledCard>
-            <FormDialog handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
-            <CustomizedSnackbars handleOpen= {props.handleOpen} handleClose={props.handleClose} modalOpen={props.modalOpen}/>
+            <FormDialog handleClose={props.handleClose} modalOpen={props.modalOpen} itemDisplay = {itemDisplay} />
+            <CustomizedSnackbars handleClose={props.handleClose} snackbarOpen={props.snackbarOpen}/>
         </Container>
     );
 }

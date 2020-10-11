@@ -32,3 +32,8 @@ export interface CartDetails {
     item: ItemDetails,
     userId: number
 }
+
+export interface Categories {
+    id: number,
+    categoryName: string
+}

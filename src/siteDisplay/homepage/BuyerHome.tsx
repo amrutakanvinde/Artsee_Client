@@ -10,9 +10,11 @@ type BuyerData = {
 
 type propsData = {
     sessionToken: string | null,
-    handleOpen: () => void,
+    modalOpen: boolean,
+    snackbarOpen: boolean,
+    handleOpen: (item: ItemDetails) => ItemDetails,
     handleClose: () => void,
-    modalOpen: boolean
+    openSnackbar: () => void
 }
 
 const StyledGrid = withStyles({
@@ -79,6 +81,7 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                     }
                     else {
                         console.log("Item added successfully")
+                        this.props.openSnackbar();
                     }
                     //Add the number on cart item
                 })
@@ -103,7 +106,7 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} />
+                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} snackbarOpen={this.props.snackbarOpen}/>
                             </Grid>
                         )
                     })

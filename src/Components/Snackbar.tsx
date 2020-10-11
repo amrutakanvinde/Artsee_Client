@@ -8,24 +8,14 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
 type propsData = {
-    handleOpen: () => void,
+    // handleOpen: () => void,
     handleClose: () => void,
-    modalOpen: boolean 
+    snackbarOpen: boolean 
 }
 
 export const CustomizedSnackbars: FunctionComponent<propsData> = (props) => {
 
-  const classes = useStyles();
  
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
@@ -41,9 +31,9 @@ export const CustomizedSnackbars: FunctionComponent<propsData> = (props) => {
         marginTop: '2px'
         // }
     }}>
-      <Snackbar open={props.modalOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar open={props.snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          This is a success message!
+          Item added to the cart!
         </Alert>
       </Snackbar>
     </div>
