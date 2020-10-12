@@ -76,7 +76,7 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
 
     editItem = () => {
 
-        console.log("On Edit", this.state.itemName, this.props.itemData.id)
+        // console.log("On Edit", this.state.itemName, this.props.itemData.id)
         if (this.props.sessionToken) {
 
             fetch(`${APIURL}/item/${this.props.itemData.id}`, {
