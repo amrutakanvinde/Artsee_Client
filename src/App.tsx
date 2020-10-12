@@ -13,6 +13,7 @@ import {
 import Cart from './siteDisplay/otherPages/Cart';
 import Checkout from './siteDisplay/otherPages/Checkout';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import MyAccount from './siteDisplay/otherPages/MyAccount';
 
 type AppData = {
   sessionToken: string | null,
@@ -73,22 +74,10 @@ class App extends React.Component<{}, AppData> {
     })
   }
 
-  handleOpen = () => {
-    console.log("Open")
-    this.setState({
-        modalOpen: true
-    })
-  };
-
-   handleClose = () => {
-    this.setState({
-        modalOpen: false
-    })
-  };
-
   Alert = (props: AlertProps) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
+  
   
   render() {
     // console.log("Role",this.state.userRole)
@@ -101,7 +90,8 @@ class App extends React.Component<{}, AppData> {
             <ul>
               <li id="name"><a href="#" className="nav-link">Artsee!</a></li>
               <li><Link to="/" className="nav-link" onClick={this.clearToken}> Logout </Link></li>
-              <li><a href="#" className="nav-link">My Account</a></li>
+              <li> <Link to="/myaccount" className="nav-link" > My Account </Link>
+              </li>
               <li 
               className={localStorage.getItem("role") === this.hashMyString("buyer") ? "" : "hide"}>
                 <Link to="/cart" className="nav-link"> Cart </Link>
@@ -121,6 +111,9 @@ class App extends React.Component<{}, AppData> {
               </Route>
               <Route exact path="/checkout">
                 <Checkout  />
+              </Route>
+              <Route exact path="/myaccount">
+                <MyAccount sessionToken={session}  clearToken={this.clearToken}/>
               </Route>
             </Switch>
           </div>

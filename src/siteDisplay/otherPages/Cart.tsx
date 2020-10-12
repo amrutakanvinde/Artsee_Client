@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import APIURL from "../../helpers/environment";
 import { CartDetails } from '../../Interfaces';
 import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container, TextField } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
 import StyledList from '../../styledComponents/StyledList';
 import {
     Route,
@@ -10,8 +9,7 @@ import {
     Switch, BrowserRouter as Router
 } from 'react-router-dom';
 import Checkout from './Checkout';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import CartListDisplay from '../tablesListsDatagrids/CartListDisplay';
 
 type CartData = {
     cartDetails: [CartDetails] | null,
@@ -48,7 +46,7 @@ class Cart extends Component<propsData, CartData> {
             subTotal = 0;
             numberOfItems = 0;
             itemTotal = 0;
-            console.log("Before Fetch")
+            // console.log("Before Fetch")
             fetch(`${APIURL}/cart/`, {
                 method: "GET",
                 headers: new Headers({
@@ -88,20 +86,30 @@ class Cart extends Component<propsData, CartData> {
         }
     }
 
-    quantityAddition = (id: number, quantity: number, totalQuantity: number) => {
-        console.log("Quantity Add", id, quantity, this.state.quantity, totalQuantity)
+    quantityAddition = (cartId: number, quantity: number, totalQuantity: number) => {
+        console.log("Quantity Add", cartId, quantity, totalQuantity)
         quantity = quantity + 1;
         if (quantity > totalQuantity) {
             alert(`Only ${totalQuantity} items exist in the inventory`)
         } else {
-            this.updateCart(id, quantity)
+            this.updateCart(cartId, quantity)
         }
     }
 
-    updateCart = (id: number, quantity: number) => {
+    quantitySubtraction = (cartId: number, quantity: number, totalQuantity: number) => {
+        console.log("Quantity Subraction", cartId, quantity, totalQuantity)
+        quantity = quantity - 1;
+        if (quantity < 0) { 
+            alert(`You cannot go below 0 items. Delete if required using delete button`)
+        } else {
+            this.updateCart(cartId, quantity)
+        }
+    }
+
+    updateCart = (cartId: number, quantity: number) => {
         if (this.props.sessionToken) {
 
-            fetch(`${APIURL}/cart/${id}`, {
+            fetch(`${APIURL}/cart/${cartId}`, {
                 method: "PUT",
                 body: JSON.stringify({
                     cart: {
@@ -137,43 +145,17 @@ class Cart extends Component<propsData, CartData> {
                     {this.state.cartDetails?.map((value, index) => {
 
                         if (value?.quantity && value?.item.price) {
-                            itemTotal = value?.quantity * value?.item.price
+                            itemTotal =  Math.round((value?.quantity * value?.item.price) * 100 + Number.EPSILON) / 100; 
                             subTotal = Math.round((subTotal + itemTotal) * 100 + Number.EPSILON) / 100;
                             numberOfItems = numberOfItems + value.quantity;
                         }
                         return (
-                            <ListItem style={{ borderBottom: '1px solid #eeeeee' }} key={index} >
-                                <ListItemAvatar>
-                                    <Avatar
-                                        alt={value?.item.itemName}
-                                        src={value?.item.itemImage}
-                                    />
-                                </ListItemAvatar>
-                                <ListItemText style={{ width: '50%' }}
-                                    id={value?.item.itemName} primary={value?.item.itemName} />
-                                <ListItemText primary={`$${value?.item.price} `} />
-                                <ListItemText  >
-                                    <Button className="plusButton" value={value.quantity}
-                                        onClick={() => { this.quantityAddition(value.id, value.quantity, value.item.quantity) }}>
-                                        <AddCircleOutlineIcon fontSize="small" />
-                                    </Button>
-                                    <TextField defaultValue={value?.quantity} variant="outlined" className="quantityText"
-                                        onChange={(e) => { this.setState({ quantity: parseInt(e.target.value) }) }}
-                                        name={value.item.quantity.toString()} />
-                                    <Button className="minusButton" >
-                                        <RemoveCircleOutlineIcon fontSize="small" />
-                                    </Button>
-                                </ListItemText>
-
-                                <ListItemText primary={`$${itemTotal}`} />
-                                <ListItemSecondaryAction >
-                                    <Button value={value?.id} onClick={e => { this.handleDelete(value?.id) }}>
-                                        <DeleteIcon />
-                                    </Button>
-                                </ListItemSecondaryAction>
-                            </ListItem>
+                            <CartListDisplay index={index} itemId={value.item.id} itemName={value?.item.itemName}
+                                itemImage={value?.item.itemImage} quantity={value.quantity} itemQuantity={value.item.quantity} itemTotal={itemTotal} price={value?.item.price} cartId={value.id}
+                                quantityAddition={this.quantityAddition} quantitySubtraction={this.quantitySubtraction} 
+                                handleDelete={this.handleDelete}
+                            />
                         )
-
                     })
                     }
                 </StyledList>
