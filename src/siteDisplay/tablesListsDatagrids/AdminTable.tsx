@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { ItemDetails, UserDetails } from '../Interfaces';
+import { ItemDetails, UserDetails } from '../../Interfaces';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import BrightnessAutoIcon from '@material-ui/icons/BrightnessAuto';

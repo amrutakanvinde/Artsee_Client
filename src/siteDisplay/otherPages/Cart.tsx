@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import APIURL from "../helpers/environment";
-import { CartDetails } from '../Interfaces';
-import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container } from '@material-ui/core';
+import APIURL from "../../helpers/environment";
+import { CartDetails } from '../../Interfaces';
+import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container, TextField } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import StyledList from '../styledComponents/StyledList';
+import StyledList from '../../styledComponents/StyledList';
 import {
     Route,
     Link,
     Switch, BrowserRouter as Router
 } from 'react-router-dom';
 import Checkout from './Checkout';
-import App from '../App';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 
 type CartData = {
-    cartDetails: [CartDetails | null]
+    cartDetails: [CartDetails] | null,
+    quantity: number
 }
 
 type propsData = {
@@ -26,7 +28,8 @@ class Cart extends Component<propsData, CartData> {
     constructor(props: propsData) {
         super(props)
         this.state = {
-            cartDetails: [null]
+            cartDetails: null,
+            quantity: 0
         }
     }
 
@@ -82,11 +85,20 @@ class Cart extends Component<propsData, CartData> {
         }
     }
 
+    quantityAddition = (id: number, quantity: number ) => {
+        console.log("Quanotity Add", id, quantity, this.state.quantity)
+    }
+
+    updateCart = () => {
+        
+    }
+
     render() {
         return (
             <Container>
-                <StyledList>
+                <StyledList >
                     {
+                        // (this.state.cartDetails) ? 
                         this.state.cartDetails?.map((value, index) => {
 
                             if (value?.quantity && value?.item.price) {
@@ -95,7 +107,7 @@ class Cart extends Component<propsData, CartData> {
                                 numberOfItems = numberOfItems + value.quantity;
                             }
                             return (
-                                <ListItem style={{ borderBottom: '1px solid #eeeeee' }} key={index} button>
+                                <ListItem style={{ borderBottom: '1px solid #eeeeee' }} key={index} >
                                     <ListItemAvatar>
                                         <Avatar
                                             alt={value?.item.itemName}
@@ -105,7 +117,21 @@ class Cart extends Component<propsData, CartData> {
                                     <ListItemText style={{ width: '50%' }}
                                         id={value?.item.itemName} primary={value?.item.itemName} />
                                     <ListItemText primary={`$${value?.item.price} `} />
-                                    <ListItemText primary={`${value?.quantity} `} />
+                                    <ListItemText  >
+                                        <Button className="plusButton" value={value.quantity}
+                                        onClick={() => {this.quantityAddition(value.id, value.quantity)}}>
+                                            <AddCircleOutlineIcon fontSize="small" />
+                                        </Button>
+                                    {/* </ListItemText> */}
+                                    {/* <ListItemText > */}
+                                        <TextField defaultValue={value?.quantity} variant="outlined"  className="quantityText"
+                                        onChange={(e)=> this.setState({quantity: parseInt(e.target.value)})}/>
+                                    {/* </ListItemText> */}
+                                    {/* <ListItemText className="noMargin"> */}
+                                        <Button className="minusButton" >
+                                            <RemoveCircleOutlineIcon fontSize="small" />
+                                        </Button>
+                                    </ListItemText>
 
                                     <ListItemText primary={`$${itemTotal}`} />
                                     <ListItemSecondaryAction >
@@ -117,6 +143,7 @@ class Cart extends Component<propsData, CartData> {
                             )
 
                         })
+                        // }
                     }
                 </StyledList>
                 <StyledList>

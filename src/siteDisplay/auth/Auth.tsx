@@ -4,7 +4,7 @@ import { Buyer } from './Buyer';
 import { Seller } from './Seller';
 import { Admin } from './Admin';
 import { Paper, Tabs, Tab, Box, Typography, AppBar, Container } from '@material-ui/core';
-import { UserData } from '../Interfaces';
+import { UserData } from '../../Interfaces';
 
 type SessionData = {
     // sessionToken: string | null,
@@ -64,6 +64,7 @@ export class Auth extends React.Component<propsData, SessionData> {
             <Container maxWidth="sm" className="mainContainer">
                 <AppBar position="static" color="default">
                     <Tabs
+                        centered={true}
                         value={this.state.value}
                         indicatorColor="primary"
                         textColor="primary"
@@ -78,6 +79,7 @@ export class Auth extends React.Component<propsData, SessionData> {
                         <Buyer updateUser={this.props.updateUser} />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
+                        <h3 style={{textAlign: "center"}}>Seller Login</h3>
                         <Seller updateUser={this.props.updateUser} />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>

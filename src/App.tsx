@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Auth } from './auth/Auth';
+import { Auth } from './siteDisplay/auth/Auth';
 import { Paper, Tabs, Tab, Box, Typography, AppBar, Container, Snackbar, Button } from '@material-ui/core';
 import { Homepage } from './siteDisplay/homepage/Homepage';
 import { UserData } from './Interfaces';
@@ -10,8 +10,8 @@ import {
   Switch,
   BrowserRouter as Router
 } from 'react-router-dom';
-import Cart from './siteDisplay/Cart';
-import Checkout from './siteDisplay/Checkout';
+import Cart from './siteDisplay/otherPages/Cart';
+import Checkout from './siteDisplay/otherPages/Checkout';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 type AppData = {

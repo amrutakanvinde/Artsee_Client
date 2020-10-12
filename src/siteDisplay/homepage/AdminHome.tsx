@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import APIURL from "../../helpers/environment";
-import AdminTable from '../../components/AdminTable';
+import AdminTable from '../tablesListsDatagrids/AdminTable';
 import { UserDetails, UserData } from '../../Interfaces';
-import EditUserDialog from '../../components/EditUserDialog';
-import ConfirmationDeleteDialog from '../../components/ConfirmationDeleteDialog';
-import ConfirmationRoleDialog from '../../components/ConfiirmationRoleDialog';
+import EditUserDialog from '../dialogModalsPopups/EditUserDialog';
+import ConfirmationDeleteDialog from '../dialogModalsPopups/ConfirmationDeleteDialog';
+import ConfirmationRoleDialog from '../dialogModalsPopups/ConfiirmationRoleDialog';
 
 
 type propsData = {

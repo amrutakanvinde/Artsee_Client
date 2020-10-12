@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import APIURL from "../../helpers/environment";
-import Item from '../../components/Item'
+import CardItemsDisplay from '../tablesListsDatagrids/CardItemsDisplay'
 import { ItemDetails } from '../../Interfaces'
 import { Grid, withStyles } from '@material-ui/core';
 
@@ -57,7 +57,7 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     }
 
     addItem = (id: number, quantity: number) => {
-        // console.log("Button", id, quantity)
+        // console.log("Add Button", id, quantity)
 
         if (this.props.sessionToken) {
 
@@ -80,7 +80,8 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                         throw new Error("fetch error");
                     }
                     else {
-                        console.log("Item added successfully")
+                        // console.log("Item added successfully")
+                        this.props.handleClose();
                         this.props.openSnackbar("success");
                     }
                     //Add the number on cart item
@@ -94,9 +95,6 @@ export class BuyerHome extends Component<propsData, BuyerData> {
         this.fetchItems();
     }
 
-    componentDidUpdate(){
-        console.log("UPDATE");
-    }
     render() {
         return (
 
@@ -106,7 +104,7 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <Item id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} snackbarOpen={this.props.snackbarOpen}/>
+                                <CardItemsDisplay id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} snackbarOpen={this.props.snackbarOpen}/>
                             </Grid>
                         )
                     })

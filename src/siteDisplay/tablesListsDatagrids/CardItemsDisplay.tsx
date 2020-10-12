@@ -9,10 +9,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
-import { StyledCard, StyledCardMedia } from '../styledComponents/StyledCard';
-import FormDialog from './Dialog';
+import { StyledCard, StyledCardMedia } from '../../styledComponents/StyledCard';
+import ItemDisplayDialog from '../dialogModalsPopups/ItemDisplayDialog';
 // import { CustomizedSnackbars } from './CustomizedSnackbar';
-import { ItemDetails } from '../Interfaces';
+import { ItemDetails } from '../../Interfaces';
 
 
 type propsData = {
@@ -31,7 +31,8 @@ type propsData = {
     // openSnackbar: () => void
 }
 let itemDisplay: ItemDetails;
-const Item: FunctionComponent<propsData> = (props) => {
+
+const CardItemsDisplay: FunctionComponent<propsData> = (props) => {
 
     let quantity = 1;
 
@@ -79,22 +80,23 @@ const Item: FunctionComponent<propsData> = (props) => {
                 </CardActionArea>
                 <CardActions>
                     <Button size="small" color="primary" style={{ marginTop: 16, width: '50%' }}
-                        onClick={() => props.addItem(props.id, quantity)}>
+                        onClick={() => {props.addItem(props.id, quantity)}}>
                         Add to Cart
                     </Button>
                     <FormControl style={{ width: '50%' }}>
                         <InputLabel style={{ textAlign: 'right' }}>Quantity</InputLabel>
-                        <Select
+                        <Select defaultValue={1}
                             onChange={(e) => updateQuantity(e.target.value)}>
                             {mapQuantity()}
                         </Select>
                     </FormControl>
                 </CardActions>
             </StyledCard>
-            <FormDialog handleClose={props.handleClose} modalOpen={props.modalOpen} itemDisplay = {itemDisplay} />
-            {/* <CustomizedSnackbars handleClose={props.handleClose} snackbarOpen={props.snackbarOpen}/> */}
+            <ItemDisplayDialog handleClose={props.handleClose} modalOpen={props.modalOpen} itemDisplay = {itemDisplay} 
+            addItem={props.addItem}
+            />
         </Container>
     );
 }
 
-export default Item;
+export default CardItemsDisplay;

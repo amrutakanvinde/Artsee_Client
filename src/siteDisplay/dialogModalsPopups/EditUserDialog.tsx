@@ -6,9 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ItemDetails, Category, UserDetails } from '../Interfaces';
+import { ItemDetails, Category, UserDetails } from '../../Interfaces';
 import { FormControl, InputLabel, Select, OutlinedInput, InputAdornment, MenuItem } from '@material-ui/core';
-import APIURL from "../helpers/environment";
+import APIURL from "../../helpers/environment";
 
 
 type propsData = {

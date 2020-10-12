@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import APIURL from "../helpers/environment";
+import APIURL from "../../helpers/environment";
 import { FormControl, TextField, Button } from '@material-ui/core';
-import { UserData } from "../Interfaces";
+import { UserData } from "../../Interfaces";
 
 type propsData = {
   updateUser: (user: UserData) => void

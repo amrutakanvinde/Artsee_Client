@@ -1,15 +1,15 @@
-.mainDiv{
-  background: url('./assets/image.jpg') no-repeat;
+.mainDiv {
+  background: url("./assets/image.jpg") no-repeat;
   background-size: cover;
   height: 100vh;
   padding-top: 100px;
 }
 
-.mainContainer{
-  padding-top: 5%
+.mainContainer {
+  padding-top: 5%;
 }
 
-.divHome{
+.divHome {
   width: 1200px;
   margin: auto;
   margin-top: 50px;
@@ -21,8 +21,8 @@
   /* padding-right: 5px !important; */
 }
 #navbar {
-  background-color: #EEEEEE;
-  position:fixed;
+  background-color: #eeeeee;
+  position: fixed;
   top: 0;
   left: 0;
   height: 50px;
@@ -43,7 +43,8 @@
 .nav-link {
   color: rgb(102, 2, 2);
   text-decoration: none;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .nav-link:hover {
   color: black;
@@ -56,15 +57,33 @@
   font-weight: bold;
   float: left;
 }
-#name .nav-link:hover{
-  color:rgb(71, 1, 1);
+#name .nav-link:hover {
+  color: rgb(71, 1, 1);
 }
 
-.customBackdrop{
-  background-color: #7F7F7F !important;
+.customBackdrop {
+  background-color: #7f7f7f !important;
   opacity: 0.3 !important;
 }
 
-.hide{
-  display:none;  
+.hide {
+  display: none;
+}
+
+.noMargin {
+  margin: 0px !important;
+  padding: 0 0 0 0 !important;
+  max-width: 50px;
+}
+
+.plusButton, .minusButton {
+  width: 20px;
+  min-width: 0px !important;
+}
+
+.quantityText .MuiInputBase-root input{
+  width: 50px;
+  height: 30px;
+  padding: 0 !important;
+  text-align: center;
 }

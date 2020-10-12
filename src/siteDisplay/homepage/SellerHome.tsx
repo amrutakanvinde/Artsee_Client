@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import ItemDataGrid from '../../components/DataGrid'
+import ItemDataGrid from '../tablesListsDatagrids/DataGrid'
 import APIURL from "../../helpers/environment";
 // import { MuiThemeProvider } from '@material-ui/styles/MuiThemeProvider';
-import SellerTable from '../../components/SellerTable';
+import SellerTable from '../tablesListsDatagrids/SellerTable';
 import { ItemDetails, Category } from '../../Interfaces';
 import AddIcon from '@material-ui/icons/Add';
 import { Button } from '@material-ui/core';
-import AddItemDialog from '../../components/AddItemDialog';
-import EditItemDialog from '../../components/EditItemDialog';
+import AddItemDialog from '../dialogModalsPopups/AddItemDialog';
+import EditItemDialog from '../dialogModalsPopups/EditItemDialog';
 
 
 type propsData = {

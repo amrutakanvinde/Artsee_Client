@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, ColDef, ValueGetterParams } from '@material-ui/data-grid';
-import { ItemDetails } from '../Interfaces';
+import { ItemDetails } from '../../Interfaces';
 import { TextField } from '@material-ui/core';
 
 type propsData = {

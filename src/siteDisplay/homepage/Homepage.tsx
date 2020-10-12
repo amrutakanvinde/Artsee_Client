@@ -4,7 +4,7 @@ import { BuyerHome } from './BuyerHome';
 import SellerHome from './SellerHome';
 import AdminHome from './AdminHome';
 import { ItemDetails } from '../../Interfaces';
-import { CustomizedSnackbars } from '../../components/CustomizedSnackbar';
+import { CustomizedSnackbars } from '../dialogModalsPopups/CustomizedSnackbar';
 
 type HomeData = {
     modalOpen: boolean,
