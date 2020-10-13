@@ -14,6 +14,9 @@ import Cart from './siteDisplay/otherPages/Cart';
 import Checkout from './siteDisplay/otherPages/Checkout';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import MyAccount from './siteDisplay/otherPages/MyAccount';
+import { ElementsConsumer, Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from './siteDisplay/otherPages/Checkout';
+import { loadStripe } from '@stripe/stripe-js';
 
 type AppData = {
   sessionToken: string | null,
@@ -21,19 +24,22 @@ type AppData = {
   modalOpen: boolean
 }
 
+
+const stripePromise = loadStripe('pk_test_51HbYrAGvh0r8rJRFSq4cNNU2ZbT4HreYVx0eJtwGkFg6mVUFRGMGm6Wl3pqKmJxlwPzMgkwyCcpJsEeGvHAOiDXy00tuDseZ4n');
+
 class App extends React.Component<{}, AppData> {
   constructor(props: {}) {
     super(props)
-    
+
     this.state = {
       sessionToken: localStorage.getItem('token') ? localStorage.getItem('token') : "",
       userRole: localStorage.getItem('role') ? localStorage.getItem('role') : "",
       modalOpen: false
     }
   }
-  
-  hashMyString = (valueToHash : string) => {
-    
+
+  hashMyString = (valueToHash: string) => {
+
     const crypto = require('crypto');
     // change to 'md5' if you want an MD5 hash
     let hash = crypto.createHash('sha1');
@@ -45,12 +51,21 @@ class App extends React.Component<{}, AppData> {
     hash.end();
     // and now you get the resulting hash
     let sha1sum = hash.read();
-  
-    return sha1sum; 
+
+    return sha1sum;
   }
 
+
+  InjectedCheckoutForm = () => (
+    <ElementsConsumer>
+      {({ stripe, elements }) => (
+        <CheckoutForm stripe={stripe} elements={elements} />
+      )}
+    </ElementsConsumer>
+  );
+
   setUserRole = (role: string) => {
-    
+
     localStorage.setItem('role', this.hashMyString(role));
     this.setState({
       userRole: role
@@ -77,8 +92,8 @@ class App extends React.Component<{}, AppData> {
   Alert = (props: AlertProps) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
-  
-  
+
+
   render() {
     // console.log("Role",this.state.userRole)
     const session = localStorage.getItem("token")
@@ -92,8 +107,8 @@ class App extends React.Component<{}, AppData> {
               <li><Link to="/" className="nav-link" onClick={this.clearToken}> Logout </Link></li>
               <li> <Link to="/myaccount" className="nav-link" > My Account </Link>
               </li>
-              <li 
-              className={localStorage.getItem("role") === this.hashMyString("buyer") ? "" : "hide"}>
+              <li
+                className={localStorage.getItem("role") === this.hashMyString("buyer") ? "" : "hide"}>
                 <Link to="/cart" className="nav-link"> Cart </Link>
               </li>
               <li>
@@ -110,10 +125,12 @@ class App extends React.Component<{}, AppData> {
                 <Cart sessionToken={this.state.sessionToken} />
               </Route>
               <Route exact path="/checkout">
-                <Checkout  />
+                <Elements stripe={stripePromise}>
+                  <this.InjectedCheckoutForm />
+                </Elements>
               </Route>
               <Route exact path="/myaccount">
-                <MyAccount sessionToken={session}  clearToken={this.clearToken}/>
+                <MyAccount sessionToken={session} clearToken={this.clearToken} />
               </Route>
             </Switch>
           </div>

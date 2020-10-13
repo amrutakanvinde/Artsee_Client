@@ -14,7 +14,8 @@ import CartListDisplay from '../tablesListsDatagrids/CartListDisplay';
 type CartData = {
     cartDetails: [CartDetails] | null,
     quantity: number,
-    quantitytMap: Object
+    totalItems: number,
+    totalPrice: number
 }
 
 type propsData = {
@@ -29,7 +30,8 @@ class Cart extends Component<propsData, CartData> {
         this.state = {
             cartDetails: null,
             quantity: 0,
-            quantitytMap: {}
+            totalItems: 0,
+            totalPrice: 0
         }
     }
 
@@ -61,16 +63,26 @@ class Cart extends Component<propsData, CartData> {
                 })
                 .then((data) => {
                     console.log("Cart", data.cart);
+                    data.cart.map((each: CartDetails) => {
+
+                        if (each?.quantity && each?.item.price) {
+                            itemTotal = Math.round((each?.quantity * each?.item.price) * 100 + Number.EPSILON) / 100;
+                            subTotal = Math.round((subTotal + itemTotal) * 100 + Number.EPSILON) / 100;
+                            numberOfItems = numberOfItems + each.quantity;
+                            this.updateTotalItemsAndPrice(numberOfItems, subTotal)
+                        }
+                    });
                     this.setState({
                         cartDetails: data.cart
                     })
+
                 })
                 .catch((err) => alert(err));
         }
     }
 
     handleDelete = (id: number | undefined) => {
-
+        console.log("In delete");
         if (this.props.sessionToken) {
             fetch(`${APIURL}/cart/${id}`, {
                 method: "DELETE",
@@ -86,57 +98,13 @@ class Cart extends Component<propsData, CartData> {
         }
     }
 
-    quantityAddition = (cartId: number, quantity: number, totalQuantity: number) => {
-        console.log("Quantity Add", cartId, quantity, totalQuantity)
-        quantity = quantity + 1;
-        if (quantity > totalQuantity) {
-            alert(`Only ${totalQuantity} items exist in the inventory`)
-        } else {
-            this.updateCart(cartId, quantity)
-        }
+    updateTotalItemsAndPrice = (totalItems: number, totalPrice: number) => {
+        this.setState({
+            totalItems: totalItems,
+            totalPrice: totalPrice
+        })
     }
 
-    quantitySubtraction = (cartId: number, quantity: number, totalQuantity: number) => {
-        console.log("Quantity Subraction", cartId, quantity, totalQuantity)
-        quantity = quantity - 1;
-        if (quantity < 0) { 
-            alert(`You cannot go below 0 items. Delete if required using delete button`)
-        } else {
-            this.updateCart(cartId, quantity)
-        }
-    }
-
-    updateCart = (cartId: number, quantity: number) => {
-        if (this.props.sessionToken) {
-
-            fetch(`${APIURL}/cart/${cartId}`, {
-                method: "PUT",
-                body: JSON.stringify({
-                    cart: {
-                        quantity: quantity
-                    },
-                }),
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                    'Authorization': this.props.sessionToken
-                }),
-            })
-                .then((res) => {
-                    if (res.status !== 200) {
-                        res.json().then(err => { alert(err.error) })
-                        throw new Error("fetch error");
-                    }
-                    else {
-                        console.log("Cart edited successfully")
-                        // this.fetchCart();
-                        // this.cartMapper();
-                        // this.render()
-                        window.location.reload(false);
-                    }
-                })
-                .catch((err) => console.log("error in editing cart", err));
-        }
-    }
 
     render() {
         return (
@@ -144,16 +112,13 @@ class Cart extends Component<propsData, CartData> {
                 <StyledList >
                     {this.state.cartDetails?.map((value, index) => {
 
-                        if (value?.quantity && value?.item.price) {
-                            itemTotal =  Math.round((value?.quantity * value?.item.price) * 100 + Number.EPSILON) / 100; 
-                            subTotal = Math.round((subTotal + itemTotal) * 100 + Number.EPSILON) / 100;
-                            numberOfItems = numberOfItems + value.quantity;
-                        }
+
                         return (
-                            <CartListDisplay index={index} itemId={value.item.id} itemName={value?.item.itemName}
-                                itemImage={value?.item.itemImage} quantity={value.quantity} itemQuantity={value.item.quantity} itemTotal={itemTotal} price={value?.item.price} cartId={value.id}
-                                quantityAddition={this.quantityAddition} quantitySubtraction={this.quantitySubtraction} 
-                                handleDelete={this.handleDelete}
+                            <CartListDisplay key={index} itemId={value.item.id} itemName={value?.item.itemName}
+                                itemImage={value?.item.itemImage} quantity={value.quantity} itemQuantity={value.item.quantity} itemTotal={Math.round((value?.quantity * value?.item.price) * 100 + Number.EPSILON) / 100} 
+                                price={value?.item.price} cartId={value.id}
+                                sessionToken={this.props.sessionToken}
+                                handleDelete={this.handleDelete} updateTotalItemsAndPrice={this.updateTotalItemsAndPrice} totalItems={this.state.totalItems} totalPrice={this.state.totalPrice}
                             />
                         )
                     })
@@ -163,7 +128,7 @@ class Cart extends Component<propsData, CartData> {
                 <StyledList>
                     <ListItem style={{ borderBottom: '1px solid #eeeeee', textAlign: 'right' }}>
                         <ListItemText style={{ width: '80%', fontWeight: "bold" }}>
-                            Total({numberOfItems} items): ${subTotal}
+                            Total({this.state.totalItems} items): ${this.state.totalPrice}
                         </ListItemText>
                         <ListItemText style={{ width: '30px' }}>
                         </ListItemText>

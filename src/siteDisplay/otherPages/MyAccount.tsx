@@ -181,11 +181,19 @@ export default class MyAccount extends Component<propsData, AccountData> {
                 />
                 <br />
                 <br />
+                <TextField label="Password" variant="outlined"
+                    
+                    // onChange={e => {
+                    //     this.setState({ email: (e.target.value) })
+                    // }}
+                />
+                <br />
+                <br />
 
                 <Button color="primary"
                     onClick={this.editUser}
                 >
-                    Edit User
+                    Save Changes
                 </Button>
                 <Button color="primary" onClick={() => {
                     this.setState({
