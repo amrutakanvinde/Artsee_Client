@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import image from '../assets/image.jpg';
 import { Container, Select, MenuItem, InputLabel, FormControl } from '@material-ui/core';
-import { StyledCard, StyledCardMedia } from '../../styledComponents/StyledCard';
+// import { StyledCard, StyledCardMedia } from '../../styledComponents/StyledCard';
 import ItemDisplayDialog from '../dialogModalsPopups/ItemDisplayDialog';
 // import { CustomizedSnackbars } from './CustomizedSnackbar';
 import { ItemDetails } from '../../Interfaces';
@@ -31,6 +31,18 @@ type propsData = {
     // openSnackbar: () => void
 }
 let itemDisplay: ItemDetails;
+
+ const StyledCard = withStyles({
+    root: {
+        maxWidth: 345,
+    }
+})(Card);
+
+ const StyledCardMedia = withStyles({
+    root: {
+        height: 200
+    }
+})(CardMedia)
 
 const CardItemsDisplay: FunctionComponent<propsData> = (props) => {
 
