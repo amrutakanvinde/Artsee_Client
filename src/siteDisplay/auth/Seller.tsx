@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import SignUp from './SignUp';
 import Login from './Login';
-import { Container, Typography } from '@material-ui/core';
-import StyledContainer from '../../styledComponents/StyledContainer'
+import { Container, Typography, withStyles } from '@material-ui/core';
+// import StyledContainer from '../../styledComponents/StyledContainer'
 import { UserData } from '../../Interfaces';
 
 
@@ -14,6 +14,15 @@ type SellerData = {
     isOpen: boolean
 }
 
+const StyledContainer = withStyles ({
+    root:{
+        width: '100%',
+        textAlign: 'center',
+        margin: 'auto',
+      //   backgroundColor: 'white'
+    }  
+  })(Container)
+  
 export class Seller extends Component<AcceptedProps, SellerData> {
     constructor(props: AcceptedProps) {
         super(props)
