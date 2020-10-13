@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import APIURL from "../../helpers/environment";
 import { CartDetails } from '../../Interfaces';
 import { ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, List, Button, Container, TextField } from '@material-ui/core';
-import StyledList from '../../styledComponents/StyledList';
+// import StyledList from '../../styledComponents/StyledList';
 import {
     Route,
     Link,
@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Checkout from './Checkout';
 import CartListDisplay from '../tablesListsDatagrids/CartListDisplay';
+import { withStyles } from '@material-ui/styles';
 
 type CartData = {
     cartDetails: [CartDetails] | null,
@@ -21,6 +22,14 @@ type CartData = {
 type propsData = {
     sessionToken: string | null
 }
+
+const StyledList = withStyles ({
+    root:{
+        width: '1000px',
+        margin: 'auto', 
+        marginTop: '50px' 
+    }  
+  })(List)
 
 let subTotal: number = 0, numberOfItems: number = 0, itemTotal: number = 0;
 
@@ -109,7 +118,7 @@ class Cart extends Component<propsData, CartData> {
     render() {
         return (
             <Container>
-                <StyledList >
+                <StyledList>
                     {this.state.cartDetails?.map((value, index) => {
 
 
