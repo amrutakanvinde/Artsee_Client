@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { CardElement, Elements, ElementsConsumer } from '@stripe/react-stripe-js';
+import { TextField } from '@material-ui/core';
 
 type propsData = {
     stripe: any//Stripe | null | Promise<Stripe | null>,
@@ -33,6 +34,11 @@ export default class CheckoutForm extends React.Component<propsData> {
         const { stripe } = this.props;
         return (
             <form onSubmit={this.handleSubmit} className="divHome">
+
+                <h2>Shipping Address</h2>
+                <TextField label="Address"/>
+
+                
                 <CardElement
                     options={{
                         iconStyle: 'solid',
@@ -57,21 +63,3 @@ export default class CheckoutForm extends React.Component<propsData> {
         );
     }
 }
-
-// const InjectedCheckoutForm = () => (
-//   <ElementsConsumer>
-//     {({stripe, elements}) => (
-//       <CheckoutForm stripe={stripe} elements={elements} />
-//     )}
-//   </ElementsConsumer>
-// );
-
-// const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
-
-// const App = () => (
-//   <Elements stripe={stripePromise}>
-//     <InjectedCheckoutForm />
-//   </Elements>
-// );
-
-// ReactDOM.render(<App />, document.body);
