@@ -1,5 +1,19 @@
-.mainDiv {
-  background: url("./assets/image.jpg") no-repeat;
+.buyerDiv {
+  background: url("./assets/buyer.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+  padding-top: 100px;
+}
+
+.sellerDiv {
+  background: url("./assets/seller.jpeg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+  padding-top: 100px;
+}
+
+.adminDiv {
+  background: url("./assets/admin.jpeg") no-repeat;
   background-size: cover;
   height: 100vh;
   padding-top: 100px;

@@ -21,7 +21,8 @@ import { loadStripe } from '@stripe/stripe-js';
 type AppData = {
   sessionToken: string | null,
   userRole: string | null,
-  modalOpen: boolean
+  modalOpen: boolean,
+  classChange: string
 }
 
 
@@ -34,7 +35,8 @@ class App extends React.Component<{}, AppData> {
     this.state = {
       sessionToken: localStorage.getItem('token') ? localStorage.getItem('token') : "",
       userRole: localStorage.getItem('role') ? localStorage.getItem('role') : "",
-      modalOpen: false
+      modalOpen: false,
+      classChange: "buyerDiv"
     }
   }
 
@@ -93,6 +95,11 @@ class App extends React.Component<{}, AppData> {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
+  backgroundImageChange = (roleChange: string ) => {
+      this.setState({
+        classChange: roleChange
+      })
+  }
 
   render() {
     // console.log("Role",this.state.userRole)
@@ -138,10 +145,10 @@ class App extends React.Component<{}, AppData> {
       </Container>
     }
     return (
-      <div className={session === null ? "mainDiv" : ""}>
+      <div className={session === null ? this.state.classChange : ""}>
         {container}
         {session === null ?
-          <Auth setUserRole={this.setUserRole} updateUser={this.updateUser} /> :
+          <Auth setUserRole={this.setUserRole} updateUser={this.updateUser} backgroundImageChange={this.backgroundImageChange}/> :
           <div />
         }
       </div>

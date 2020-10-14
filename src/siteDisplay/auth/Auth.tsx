@@ -15,6 +15,7 @@ type SessionData = {
 type propsData = {
     updateUser: (user: UserData) => void,
     setUserRole: (role: string) => void,
+    backgroundImageChange: (roleChange: string) => void
 }
 
 interface TabPanelProps {
@@ -56,6 +57,13 @@ export class Auth extends React.Component<propsData, SessionData> {
         this.setState({
             value: newValue
         })
+        if(newValue === 0){
+            this.props.backgroundImageChange("buyerDiv")
+        } else if(newValue === 1){
+            this.props.backgroundImageChange("sellerDiv")
+        } else if(newValue === 2){
+            this.props.backgroundImageChange("adminDiv")
+        }
     };
 
 
@@ -79,7 +87,6 @@ export class Auth extends React.Component<propsData, SessionData> {
                         <Buyer updateUser={this.props.updateUser} />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
-                        <h3 style={{textAlign: "center"}}>Seller Login</h3>
                         <Seller updateUser={this.props.updateUser} />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
