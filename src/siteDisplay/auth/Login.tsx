@@ -4,6 +4,7 @@ import { FormControl, TextField, Button, InputLabel, Input, InputAdornment, Icon
 import { UserData } from "../../Interfaces";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 type propsData = {
   updateUser: (user: UserData) => void
@@ -39,33 +40,37 @@ class Login extends Component<propsData, LoginData> {
     }
   }
 
-  handleSubmit = (event: React.FormEvent<HTMLElement>) => {
-    event.preventDefault();
+  handleSubmit = () => {
+    // event.preventDefault();
     // console.log("GHERE")
-    fetch(`${APIURL}/user/login/`, {
-      method: "POST",
-      body: JSON.stringify({
-        user: {
-          email: this.state.email,
-          password: this.state.password,
-        },
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          throw new Error("User does not exist");
-        } else return res.json();
+    if (this.state.email !== "" && this.state.password !== "") {
+      fetch(`${APIURL}/user/login/`, {
+        method: "POST",
+        body: JSON.stringify({
+          user: {
+            email: this.state.email,
+            password: this.state.password,
+          },
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
       })
-      .then((data) => {
-        // console.log(data);
-        // this.props.updateToken(data.sessionToken);
-        this.props.updateUser(data);
-        console.log("User successfully logged in");
-      })
-      .catch((err) => alert(err));
+        .then((res) => {
+          if (res.status !== 200) {
+            throw new Error("User does not exist");
+          } else return res.json();
+        })
+        .then((data) => {
+          // console.log(data);
+          // this.props.updateToken(data.sessionToken);
+          this.props.updateUser(data);
+          console.log("User successfully logged in");
+        })
+        .catch((err) => alert(err));
+    } else {
+      alert("Email and/or Password cannot be blank")
+    }
   };
 
   handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,43 +89,48 @@ class Login extends Component<propsData, LoginData> {
     event.preventDefault();
   };
 
+  handleEmailChange = (event: any) => {
+    const email = event.target.value;
+    this.setState({ email: email })
+  }
+
+  handlePasswordChange = (event: any) => {
+    const password = event.target.value;
+    this.setState({ password: password })
+  }
+
   render() {
     return (
-      <FormControl  >
-        <TextField label="Email" variant="outlined" required
-          onChange={e => {
-            this.setState({ email: e.target.value })
-          }} />
-        <br />
-        {/* <TextField label="Password" variant="outlined" type="password"
-          onChange={e => {
-            this.setState({ password: e.target.value })
-          }} /> */}
-        <FormControl variant="outlined" required style={{ margin:"1",  }}>
+      // <FormControl  >
+      <ValidatorForm
+        ref="form"
+        onSubmit={this.handleSubmit}
+        onError={errors => console.log(errors)}
+      >
+        <TextValidator
+          label="Email"
+          onChange={this.handleEmailChange}
+          name="email"
+          value={this.state.email}
+          validators={['required', 'isEmail']}
+          errorMessages={['this field is required', 'email is not valid']}
+          autoComplete="off"
 
-          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-          <OutlinedInput
-            id="standard-adornment-password"
-            type={this.state.values.showPassword ? 'text' : 'password'}
-            value={this.state.values.password}
-            onChange={this.handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={this.handleClickShowPassword}
-                  onMouseDown={this.handleMouseDownPassword}
-                >
-                  {this.state.values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
+        />
 
+        <TextValidator
+          label="Password"
+          onChange={this.handlePasswordChange}
+          name="password"
+          type="password"
+          validators={['minStringLength:4', 'required']}
+          errorMessages={['password should be more than 4 letters', 'this field is required']}
+          value={this.state.password}
+        />
         <br />
-        <Button variant="contained" onClick={e => { this.handleSubmit(e) }}>Login</Button>
-      </FormControl>
+        <Button variant="contained" onClick={this.handleSubmit}>Login</Button>
+      </ValidatorForm>
+
     )
   }
 }
