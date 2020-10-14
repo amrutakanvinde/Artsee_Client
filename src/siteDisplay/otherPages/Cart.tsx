@@ -108,6 +108,7 @@ class Cart extends Component<propsData, CartData> {
     }
 
     updateTotalItemsAndPrice = (totalItems: number, totalPrice: number) => {
+        // console.log("Updated")
         this.setState({
             totalItems: totalItems,
             totalPrice: totalPrice

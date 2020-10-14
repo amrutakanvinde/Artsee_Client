@@ -160,7 +160,16 @@ export default class CartListDisplay extends Component<propsData, CartItemsDispl
 
                 <ListItemText primary={`$${this.state.currentSubTotal}`} style={{ width: '400px' }}/>
                 <ListItemSecondaryAction>
-                    <Button value={this.props.cartId} onClick={e => { this.props.handleDelete(this.props.cartId) }}>
+                    <Button value={this.props.cartId} onClick={e => { 
+                        // console.log("Current Quantity", this.state.currentQuantity, this.state.oldQuantity)
+                        // this.setState({
+                        //     currentQuantity: 0,
+                        //     currentSubTotal: 0,
+                        //     oldQuantity: 0,
+                        //     oldTotalPrice: 0
+                        // })
+                    this.props.handleDelete(this.props.cartId) 
+                    }}>
                         <DeleteIcon />
                     </Button>
                 </ListItemSecondaryAction>
