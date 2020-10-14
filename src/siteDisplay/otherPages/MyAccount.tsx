@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import APIURL from "../../helpers/environment";
 import { UserDetails } from '../../Interfaces';
-import ConfirmationDeleteDialog from '../dialogModalsPopups/ConfirmationDeleteDialog';
+import ConfirmationDeleteUserDialog from '../dialogModalsPopups/ConfirmationDeleteUserDialog';
 
 
 type propsData = {
@@ -181,14 +181,12 @@ export default class MyAccount extends Component<propsData, AccountData> {
                 />
                 <br />
                 <br />
-                <TextField label="Password" variant="outlined"
+                {/* <TextField label="Password" variant="outlined"
                     
                     // onChange={e => {
                     //     this.setState({ email: (e.target.value) })
                     // }}
-                />
-                <br />
-                <br />
+                /> */}
 
                 <Button color="primary"
                     onClick={this.editUser}
@@ -204,7 +202,7 @@ export default class MyAccount extends Component<propsData, AccountData> {
                 </Button>
 
 
-                <ConfirmationDeleteDialog confirmationDeleteModal={this.state.confirmationDeleteModal} handleClose={this.handleClose} handleDelete={this.handleDelete} />
+                <ConfirmationDeleteUserDialog confirmationDeleteModal={this.state.confirmationDeleteModal} handleClose={this.handleClose} handleDeleteUser={this.handleDelete} />
             </form>
 
         )

@@ -23,13 +23,13 @@ type propsData = {
     sessionToken: string | null
 }
 
-const StyledList = withStyles ({
-    root:{
+const StyledList = withStyles({
+    root: {
         width: '1000px',
-        margin: 'auto', 
-        marginTop: '50px' 
-    }  
-  })(List)
+        margin: 'auto',
+        marginTop: '50px'
+    }
+})(List)
 
 let subTotal: number = 0, numberOfItems: number = 0, itemTotal: number = 0;
 
@@ -119,13 +119,26 @@ class Cart extends Component<propsData, CartData> {
     render() {
         return (
             <Container>
+
+                <StyledList>
+                    <ListItem style={{ borderBottom: '1px solid #eeeeee' }} >
+                        <ListItemText style={{ minWidth: "50px" }} >
+                           
+                        </ListItemText>
+                        <ListItemText style={{ minWidth: "300px"}} primary="Item Name" className="boldFont" />
+                        <ListItemText primary="Item Price" style={{ minWidth: "200px" }} />
+                        <ListItemText style={{ minWidth: '200px' }} primary="Item Quantity">
+                        </ListItemText>
+
+                        <ListItemText primary="SubTotal" style={{ minWidth: '150px' }} />
+                        <ListItemText primary="Delete" style={{ width: '400px' }} />
+                    </ListItem>
+                </StyledList>
                 <StyledList>
                     {this.state.cartDetails?.map((value, index) => {
-
-
                         return (
                             <CartListDisplay key={index} itemId={value.item.id} itemName={value?.item.itemName}
-                                itemImage={value?.item.itemImage} quantity={value.quantity} itemQuantity={value.item.quantity} itemTotal={Math.round((value?.quantity * value?.item.price) * 100 + Number.EPSILON) / 100} 
+                                itemImage={value?.item.itemImage} quantity={value.quantity} itemQuantity={value.item.quantity} itemTotal={Math.round((value?.quantity * value?.item.price) * 100 + Number.EPSILON) / 100}
                                 price={value?.item.price} cartId={value.id}
                                 sessionToken={this.props.sessionToken}
                                 handleDelete={this.handleDelete} updateTotalItemsAndPrice={this.updateTotalItemsAndPrice} totalItems={this.state.totalItems} totalPrice={this.state.totalPrice}

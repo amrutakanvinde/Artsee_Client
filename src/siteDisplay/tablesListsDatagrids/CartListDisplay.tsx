@@ -165,7 +165,7 @@ export default class CartListDisplay extends Component<propsData, CartItemsDispl
                         // this.setState({
                         //     currentQuantity: 0,
                         //     currentSubTotal: 0,
-                        //     oldQuantity: 0,
+                        //     oldQuantity: 0,  
                         //     oldTotalPrice: 0
                         // })
                     this.props.handleDelete(this.props.cartId) 

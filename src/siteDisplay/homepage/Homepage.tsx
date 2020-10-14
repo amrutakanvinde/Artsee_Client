@@ -14,7 +14,10 @@ type HomeData = {
     addItemModal: boolean,
     editItemModal: boolean,
     editUserModal: boolean,
-    confirmationDeleteModal: boolean,
+    editCategoriesModal: boolean,
+    addCategoryModal: boolean,
+    confirmationDeleteUserModal: boolean,
+    confirmationDeleteCategoryModal: boolean,
     confirmationRoleModal: boolean,
 }
 
@@ -35,7 +38,10 @@ export class Homepage extends Component<propsData, HomeData> {
             addItemModal: false,
             editItemModal: false,
             editUserModal: false,
-            confirmationDeleteModal: false,
+            editCategoriesModal: false,
+            addCategoryModal: false,
+            confirmationDeleteUserModal: false,
+            confirmationDeleteCategoryModal: false,
             confirmationRoleModal: false,
             item: {
                 id: 0,
@@ -93,11 +99,29 @@ export class Homepage extends Component<propsData, HomeData> {
         })
       }
 
-      handleConfirmationDelete = () => {
+      handleAddCategory = () => {
+        this.setState({
+            addCategoryModal: true
+        })
+    }
+
+      handleEditCategory = () => {
+        this.setState({
+            editCategoriesModal: true
+        })
+      }
+
+      handleConfirmationDeleteUser = () => {
           this.setState({
-              confirmationDeleteModal: true
+            confirmationDeleteUserModal: true
           })
       }
+
+      handleConfirmationDeleteCategory = () => {
+        this.setState({
+            confirmationDeleteCategoryModal: true
+        })
+    }
 
       handleConfirmationRole = () => {
         this.setState({
@@ -112,7 +136,10 @@ export class Homepage extends Component<propsData, HomeData> {
             addItemModal: false,
             editItemModal: false,
             editUserModal: false,
-            confirmationDeleteModal: false,
+            addCategoryModal: false,
+            editCategoriesModal: false,
+            confirmationDeleteUserModal: false,
+            confirmationDeleteCategoryModal: false,
             confirmationRoleModal: false
         })
 
@@ -127,8 +154,7 @@ export class Homepage extends Component<propsData, HomeData> {
                 :currentRole === this.props.hashMyString("seller") ?
                 <SellerHome sessionToken={this.props.sessionToken} addItemModal={this.state.addItemModal} handleAddItem={this.handleAddItem} handleClose={this.handleClose} openSnackbar= {this.openSnackbar} snackbarOpen={this.state.snackbarOpen} editItemModal={this.state.editItemModal} handleEditItem={this.handleEditItem}/> 
                 :currentRole === this.props.hashMyString("admin") ?
-                <AdminHome sessionToken={this.props.sessionToken} handleEditUser={this.handleEditUser}  editUserModal={this.state.editUserModal} handleClose={this.handleClose} openSnackbar= {this.openSnackbar} snackbarOpen={this.state.snackbarOpen}
-                handleConfirmationDelete={this.handleConfirmationDelete} confirmationDeleteModal={this.state.confirmationDeleteModal} handleConfirmationRole={this.handleConfirmationRole} confirmationRoleModal={this.state.confirmationRoleModal} 
+                <AdminHome sessionToken={this.props.sessionToken} handleEditUser={this.handleEditUser}  editUserModal={this.state.editUserModal} handleEditCategory={this.handleEditCategory}  editCategoriesModal={this.state.editCategoriesModal} handleClose={this.handleClose} openSnackbar= {this.openSnackbar} snackbarOpen={this.state.snackbarOpen} handleConfirmationDeleteUser={this.handleConfirmationDeleteUser} confirmationDeleteUserModal={this.state.confirmationDeleteUserModal} handleConfirmationRole={this.handleConfirmationRole} confirmationRoleModal={this.state.confirmationRoleModal} handleConfirmationDeleteCategory={this.handleConfirmationDeleteCategory} confirmationDeleteCategoryModal={this.state.confirmationDeleteCategoryModal} addCategoryModal={this.state.addCategoryModal} handleAddCategory={this.handleAddCategory}
                 /> : ""
                 }
                  <CustomizedSnackbars handleClose={this.handleClose} snackbarOpen={this.state.snackbarOpen} severity={this.state.severity}/>

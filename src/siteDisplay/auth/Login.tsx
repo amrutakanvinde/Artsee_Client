@@ -69,7 +69,7 @@ class Login extends Component<propsData, LoginData> {
 
   render() {
     return (
-      // <FormControl  >
+      
       <ValidatorForm
         ref="form"
         onSubmit={this.handleSubmit}

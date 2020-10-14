@@ -13,14 +13,14 @@ import APIURL from "../../helpers/environment";
 
 type propsData = {
     // sessionToken: string | null,
-    confirmationDeleteModal: boolean,
+    confirmationDeleteCategoryModal: boolean,
     // snackbarOpen: boolean,
     handleClose: () => void,
-    handleDelete: () => void,
+    handleDeleteCategory: () => void,
     // openSnackbar: (str: string) => void
 }
 
-export class ConfirmationDeleteDialog extends Component<propsData, {}> {
+export class ConfirmationDeleteCategoryDialog extends Component<propsData, {}> {
 
     constructor(props: propsData) {
         super(props)
@@ -36,7 +36,7 @@ export class ConfirmationDeleteDialog extends Component<propsData, {}> {
     render() {
         return (
             <div>
-                <Dialog open={this.props.confirmationDeleteModal} onClose={() => this.handleClose} aria-labelledby="form-dialog-title"
+                <Dialog open={this.props.confirmationDeleteCategoryModal} onClose={() => this.handleClose} aria-labelledby="form-dialog-title"
                     BackdropProps={{ invisible: false, classes: { root: 'customBackdrop' } }}>
                     <DialogTitle id="form-dialog-title">
                         Confirm
@@ -44,15 +44,15 @@ export class ConfirmationDeleteDialog extends Component<propsData, {}> {
                     <DialogContent>
 
                         <DialogContentText>
-                            Are you sure you want to delete this user?
+                            Are you sure you want to delete this category?
                         </DialogContentText>
-                        
-                    </DialogContent>    
+
+                    </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.handleClose} color="primary">
                             Cancel
                             </Button>
-                        <Button onClick={this.props.handleDelete} color="primary">
+                        <Button onClick={this.props.handleDeleteCategory} color="primary">
                             Yes
                             </Button>
                     </DialogActions>
@@ -62,4 +62,4 @@ export class ConfirmationDeleteDialog extends Component<propsData, {}> {
     }
 }
 
-export default ConfirmationDeleteDialog;
+export default ConfirmationDeleteCategoryDialog;

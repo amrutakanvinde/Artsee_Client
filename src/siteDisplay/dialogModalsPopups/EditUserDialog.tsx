@@ -20,7 +20,7 @@ type propsData = {
     openSnackbar: (str: string) => void
 }
 
-type EditItemData = {
+type EditUserData = {
     email: string| undefined,
     firstName: string | undefined,
     lastName: string | undefined,
@@ -30,7 +30,7 @@ type EditItemData = {
     userName: string | undefined,
 }
 
-export class EditUserDialog extends Component<propsData, EditItemData> {
+export class EditUserDialog extends Component<propsData, EditUserData> {
 
     constructor(props: propsData) {
         super(props)

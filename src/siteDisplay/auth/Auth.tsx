@@ -26,7 +26,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-
+    
     return (
         <div
             role="tabpanel"
@@ -51,6 +51,7 @@ export class Auth extends React.Component<propsData, SessionData> {
             role: "",
             value: 0
         }
+        this.props.backgroundImageChange("buyerDiv")
     }
 
     handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -71,6 +72,7 @@ export class Auth extends React.Component<propsData, SessionData> {
         return (
             <Container maxWidth="sm" className="mainContainer">
                 <AppBar position="static" color="default">
+                    {/* <h2>LOGO</h2> */}
                     <Tabs
                         centered={true}
                         value={this.state.value}

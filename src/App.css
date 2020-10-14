@@ -104,6 +104,10 @@
 
 .centerAlign {
   text-align: center;
+} 
+
+.MuiTypography-body1 .boldFont{
+  font-weight: bold !important;
 }
 
 /* STRIPE CSS */
