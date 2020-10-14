@@ -13,15 +13,6 @@ type propsData = {
 type LoginData = {
   email: string,
   password: string
-  values: State
-}
-
-interface State {
-  amount: string;
-  password: string;
-  weight: string;
-  weightRange: string;
-  showPassword: boolean;
 }
 
 class Login extends Component<propsData, LoginData> {
@@ -29,14 +20,7 @@ class Login extends Component<propsData, LoginData> {
     super(props)
     this.state = {
       email: "",
-      password: "",
-      values: {
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false,
-      }
+      password: ""
     }
   }
 
@@ -71,22 +55,6 @@ class Login extends Component<propsData, LoginData> {
     } else {
       alert("Email and/or Password cannot be blank")
     }
-  };
-
-  handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      values: ({ ...this.state.values, [prop]: event.target.value })
-    })
-  };
-
-  handleClickShowPassword = () => {
-    this.setState({
-      values: ({ ...this.state.values, showPassword: !this.state.values.showPassword })
-    })
-  };
-
-  handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
   };
 
   handleEmailChange = (event: any) => {
