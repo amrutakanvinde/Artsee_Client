@@ -44,10 +44,9 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
         // console.log("constructor")
     }
 
-    componentDidMount(){
-        // console.log("componentDidMount")
-
-    }
+    // componentDidMount(){
+    //     console.log("Add item componentDidMount")
+    // }
 
     handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'clickaway') {
@@ -131,7 +130,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <DialogContentText>
                         </DialogContentText>
                         <TextField label="Name" variant="outlined"
-                            value={this.state.itemName}
+                            // value={this.state.itemName}
                             onChange={e => {
                                 this.setState({ itemName: e.target.value })
                             }}
@@ -139,7 +138,7 @@ export class AddItemDialog extends Component<propsData, AddItemData> {
                         <br />
                         <br />
 
-                        <TextField label="Description" variant="outlined"
+                        <TextField label="Description" variant="outlined" multiline
                             onChange={e => {
                                 this.setState({ itemDescription: e.target.value })
                             }}

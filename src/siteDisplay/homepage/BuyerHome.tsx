@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import APIURL from "../../helpers/environment";
 import CardItemsDisplay from '../tablesListsDatagrids/CardItemsDisplay'
 import { ItemDetails } from '../../Interfaces'
-import { Grid, withStyles } from '@material-ui/core';
+import { Grid, withStyles, FormControl, InputLabel, Select, MenuItem, Container, TextField } from '@material-ui/core';
 
 type BuyerData = {
-    itemData: []
+    originalItemData: [],
+    itemData: ItemDetails[] | null
 }
 
 type propsData = {
@@ -28,7 +29,8 @@ export class BuyerHome extends Component<propsData, BuyerData> {
     constructor(props: propsData) {
         super(props)
         this.state = {
-            itemData: []
+            originalItemData: [],
+            itemData: null
         }
     }
 
@@ -49,11 +51,36 @@ export class BuyerHome extends Component<propsData, BuyerData> {
                 .then((data) => {
                     // console.log(data.item);
                     this.setState({
-                        itemData: data.item
+                        itemData: data.item,
+                        originalItemData: data.item
                     })
                 })
                 .catch((err) => alert(err));
         }
+    }
+
+    compareValues(key: string, order = 'asc') {
+        return function innerSort(a: any, b: any) {
+            if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                // property doesn't exist on either object
+                return 0;
+            }
+
+            const varA = (typeof a[key] === 'string')
+                ? a[key].toUpperCase() : a[key];
+            const varB = (typeof b[key] === 'string')
+                ? b[key].toUpperCase() : b[key];
+
+            let comparison = 0;
+            if (varA > varB) {
+                comparison = 1;
+            } else if (varA < varB) {
+                comparison = -1;
+            }
+            return (
+                (order === 'desc') ? (comparison * -1) : comparison
+            );
+        };
     }
 
     addItem = (id: number, quantity: number) => {
@@ -95,16 +122,74 @@ export class BuyerHome extends Component<propsData, BuyerData> {
         this.fetchItems();
     }
 
+    onSortChange = (e: React.ChangeEvent<{ value: unknown }>) => {
+        if (e.target.value) {
+            let value: any = e.target.value
+            if (value === "priceDesc") {
+                value = "price";
+                if (this.state.itemData != undefined) {
+                    this.setState({
+                        itemData: this.state.itemData?.sort(this.compareValues(value, 'desc'))
+                    })
+                }
+            } else {
+                if (this.state.itemData != undefined) {
+                    this.setState({
+                        itemData: this.state.itemData?.sort(this.compareValues(value))
+                    })
+                }
+            }
+        }
+    }
+
+    onFilter = (e: string) => {
+
+        if (e !== "") {
+            const filteredElements: ItemDetails[] | undefined = this.state.itemData?.filter(f => {
+                return f.itemName.toLowerCase().includes(e.toLowerCase())
+            })
+
+            if (filteredElements) {
+                this.setState({
+                    itemData: filteredElements
+                })
+            }
+        } else {
+            this.setState({
+                itemData: this.state.originalItemData
+            })
+        }
+    }
+
     render() {
         return (
 
             <Grid container spacing={0} >
+                <Container>
+                    <TextField label="Search" style={{ width: '50%' }}
+                        onChange={(e) => this.onFilter(e.target.value)}
+                    />
+
+                    <FormControl style={{ width: '50%' }}>
+                        <InputLabel style={{ textAlign: 'right' }}>Sort</InputLabel>
+                        <Select
+                            onChange={(e) => { this.onSortChange(e) }}
+                        >
+                            <MenuItem value={"itemName"}>Alphabetical</MenuItem>
+                            <MenuItem value={"price"}>Price Ascending</MenuItem>
+                            <MenuItem value={"priceDesc"}>Price Descending</MenuItem>
+                            <MenuItem value={"quantity"}>Quantity</MenuItem>
+                        </Select>
+                    </FormControl>
+
+
+                </Container>
                 {
-                    this.state.itemData.map((item: ItemDetails, index: number) => {
+                    this.state.itemData?.map((item: ItemDetails, index: number) => {
                         return (
 
                             <Grid item xs={3} spacing={0} >
-                                <CardItemsDisplay id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem}  handleOpen= {this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} snackbarOpen={this.props.snackbarOpen}/>
+                                <CardItemsDisplay id={item.id} itemName={item.itemName} quantity={item.quantity} price={item.price} sellerId={item.sellerId} itemImage={item.itemImage} itemDescription={item.itemDescription} addItem={this.addItem} handleOpen={this.props.handleOpen} handleClose={this.props.handleClose} modalOpen={this.props.modalOpen} snackbarOpen={this.props.snackbarOpen} />
                             </Grid>
                         )
                     })

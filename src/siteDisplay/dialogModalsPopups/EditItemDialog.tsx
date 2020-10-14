@@ -43,7 +43,15 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
             itemImageLink: this.props.itemData.itemImage,
             itemCategory: [0]
         }
-        console.log("constructor")
+        // console.log("constructor")
+    }
+
+    componentDidMount(){
+        this.fetchCategoryItems();
+    }
+
+    fetchCategoryItems = () => {
+        
     }
 
     handleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -118,7 +126,7 @@ export class EditUserDialog extends Component<propsData, EditItemData> {
                 <Dialog open={this.props.editItemModal} onClose={() => this.handleClose} aria-labelledby="form-dialog-title"
                     BackdropProps={{ invisible: false, classes: { root: 'customBackdrop' } }}>
                     <DialogTitle id="form-dialog-title">
-                        Add New Item
+                        Edit Item
                         </DialogTitle>
                     <DialogContent>
 

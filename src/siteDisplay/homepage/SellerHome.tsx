@@ -50,7 +50,7 @@ export class SellerHome extends Component<propsData, SellerData> {
     }
 
     componentDidMount() {
-        console.log("Did Mount", this.props.sessionToken);
+        // console.log("Did Mount", this.props.sessionToken);
         this.fetchItems();
         this.getAllCategories();
     }
@@ -71,7 +71,7 @@ export class SellerHome extends Component<propsData, SellerData> {
                     } else return res.json();
                 })
                 .then((data) => {
-                    console.log(data.item);
+                    console.log("Item details",data.item);
                     this.setState({
                         itemData: data.item
                     })
