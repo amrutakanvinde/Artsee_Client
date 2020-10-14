@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import APIURL from "../../helpers/environment";
-import { FormControl, TextField, Button } from '@material-ui/core';
+import { FormControl, TextField, Button, InputLabel, Input, InputAdornment, IconButton, OutlinedInput } from '@material-ui/core';
 import { UserData } from "../../Interfaces";
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 type propsData = {
   updateUser: (user: UserData) => void
@@ -10,6 +12,15 @@ type propsData = {
 type LoginData = {
   email: string,
   password: string
+  values: State
+}
+
+interface State {
+  amount: string;
+  password: string;
+  weight: string;
+  weightRange: string;
+  showPassword: boolean;
 }
 
 class Login extends Component<propsData, LoginData> {
@@ -17,7 +28,14 @@ class Login extends Component<propsData, LoginData> {
     super(props)
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      values: {
+        amount: '',
+        password: '',
+        weight: '',
+        weightRange: '',
+        showPassword: false,
+      }
     }
   }
 
@@ -50,18 +68,56 @@ class Login extends Component<propsData, LoginData> {
       .catch((err) => alert(err));
   };
 
+  handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      values: ({ ...this.state.values, [prop]: event.target.value })
+    })
+  };
+
+  handleClickShowPassword = () => {
+    this.setState({
+      values: ({ ...this.state.values, showPassword: !this.state.values.showPassword })
+    })
+  };
+
+  handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
   render() {
     return (
-      <FormControl >
-        <TextField label="Email" variant="outlined"
+      <FormControl  >
+        <TextField label="Email" variant="outlined" required
           onChange={e => {
             this.setState({ email: e.target.value })
           }} />
         <br />
-        <TextField label="Password" variant="outlined" type="password"
+        {/* <TextField label="Password" variant="outlined" type="password"
           onChange={e => {
             this.setState({ password: e.target.value })
-          }} />
+          }} /> */}
+        <FormControl variant="outlined" required style={{ margin:"1",  }}>
+
+          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="standard-adornment-password"
+            type={this.state.values.showPassword ? 'text' : 'password'}
+            value={this.state.values.password}
+            onChange={this.handleChange('password')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                  onMouseDown={this.handleMouseDownPassword}
+                >
+                  {this.state.values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+
         <br />
         <Button variant="contained" onClick={e => { this.handleSubmit(e) }}>Login</Button>
       </FormControl>

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { CardElement, Elements, ElementsConsumer } from '@stripe/react-stripe-js';
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 type propsData = {
     stripe: any//Stripe | null | Promise<Stripe | null>,
@@ -33,12 +33,21 @@ export default class CheckoutForm extends React.Component<propsData> {
     render() {
         const { stripe } = this.props;
         return (
-            <form onSubmit={this.handleSubmit} className="divHome">
+            <form onSubmit={this.handleSubmit} className="divHome" style={{width:"50%"}}>
 
                 <h2>Shipping Address</h2>
-                <TextField label="Address"/>
+                <TextField label="Address" fullWidth/>
+                <TextField label="City" fullWidth/>
+                <TextField label="State" />
+                <TextField label="ZipCode" />
 
-                
+                <br/>
+                <br/>
+
+                <h2>Payment Details</h2>
+                <TextField label="Name on Card" fullWidth />
+                <br/>
+                <br/>
                 <CardElement
                     options={{
                         iconStyle: 'solid',
@@ -47,7 +56,7 @@ export default class CheckoutForm extends React.Component<propsData> {
                                 fontSize: '16px',
                                 color: '#424770',
                                 '::placeholder': {
-                                    color: '#aab7c4',
+                                    color: '#fffff',
                                 },
                             },
                             invalid: {
@@ -56,9 +65,11 @@ export default class CheckoutForm extends React.Component<propsData> {
                         },
                     }}
                 />
-                <button type="submit" disabled={!stripe}>
+                <br/>
+                <br/>
+                <Button type="submit" disabled={!stripe} variant="outlined">
                     Pay
-                </button>
+                </Button>
             </form>
         );
     }
