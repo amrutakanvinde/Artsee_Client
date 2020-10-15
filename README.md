@@ -32,9 +32,10 @@ Once you select what what item you want, choose the quantity from the dropdown p
 You can have a quick look at the website which is deployed on Heroku by clicking https://artsee-client.herokuapp.com/
 
 
-Planning links:
-Database structure: https://dbdiagram.io/d/5f6e30787da1ea736e2f61d3
-Data Flow: https://miro.com/app/board/o9J_kkHvWXc=/
-WireFrame: https://xd.adobe.com/view/ae381b86-8312-4229-86a4-9fbc4fd5c552-fb6b/
-Planning Document: https://docs.google.com/document/d/1_L5YOBJ3tJtRtU3V3AuAGF-l0uljw0GLpBCHfAf5d_o/edit?usp=sharing
+**Planning links and References:**
+- Database structure: https://dbdiagram.io/d/5f6e30787da1ea736e2f61d3
+- Data Flow: https://miro.com/app/board/o9J_kkHvWXc=/
+- WireFrame: https://xd.adobe.com/view/ae381b86-8312-4229-86a4-9fbc4fd5c552-fb6b/
+- Planning Document: https://docs.google.com/document/d/1_L5YOBJ3tJtRtU3V3AuAGF-l0uljw0GLpBCHfAf5d_o/edit?usp=sharing
+- Validator form reference: https://www.npmjs.com/package/react-material-ui-form-validator
 
